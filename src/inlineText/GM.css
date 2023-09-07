@@ -21,6 +21,10 @@ html, body, #MyConfig {
 
 #MyConfig textarea {
     font-family: "Consolas", monospace !important;
+}
+
+#MyConfig textarea:focus {
+    font-family: "Consolas", monospace !important;
     width: 80%;
     min-height: 20em;
 }
@@ -35,4 +39,16 @@ html, body, #MyConfig {
 
 .d-inline {
     display: inline-block !important;
+}
+
+#startBanner {
+    position: fixed;
+    right: 1px;
+    bottom: 0;
+    font-size: 1em;
+    z-index: 1001;
+    user-select: none;
+    border: gray dashed 2px;
+    color: gray;
+    padding: .25em;
 }

@@ -110,6 +110,10 @@ export class State {
 
             ['crimehistory', new StateItem('crimehistory', '犯罪历史', 10)],
             ['crime', new StateItem('crime', '逮捕实施', 10)],
+
+            [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
+
+            ['feats.allSaves.points', new StateItem('feats.allSaves.points', 'Vrel硬币', 1000)],
         ]);
     }
 

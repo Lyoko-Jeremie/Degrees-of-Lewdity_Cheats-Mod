@@ -33,6 +33,11 @@ import {FindValue} from '../Cheats/Tools';
                     bootstrap: {
                         smallBtn: true,
                     },
+                    buttonConfig: {
+                        noSave: true,
+                        noCancel: true,
+                        noReset: true,
+                    },
                 },
                 'id': 'MyConfig', // The id used for this instance of GM_config
                 'title': 'Degrees-of-Lewdity Cheats Mod', // Panel Title
@@ -370,6 +375,23 @@ import {FindValue} from '../Cheats/Tools';
             }
         }
     });
+    if (true) {
+        const startBanner = document.createElement('div');
+        startBanner.id = 'startBanner';
+        startBanner.innerText = 'Degrees-of-Lewdity Cheats Mod';
+        startBanner.style.cssText = 'position: fixed;right: 1px;bottom: 1px;' +
+            'font-size: 1em;z-index: 1001;user-select: none;' +
+            'border: gray dashed 2px;color: gray;padding: .25em;';
+        startBanner.addEventListener('click', () => {
+            if (gmc && gmc.isOpen) {
+                gmc.close();
+            } else {
+                gmc = gmcCreator();
+                gmc.open();
+            }
+        });
+        document.body.appendChild(startBanner);
+    }
 })().catch(E => {
     console.error(E);
 });
