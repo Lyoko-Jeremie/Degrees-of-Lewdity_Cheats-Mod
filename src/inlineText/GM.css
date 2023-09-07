@@ -1,0 +1,14 @@
+#MyConfig textarea {
+    font-family: "Consolas", monospace !important;
+    width: 80%;
+    min-height: 20em;
+}
+
+#MyConfig_install_EnchantedRestraintsPatch_var {
+    /*display: inline-block;*/
+}
+#MyConfig_Name_var {
+    /*display: inline-block;*/
+}
+
+
