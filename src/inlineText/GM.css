@@ -1,3 +1,24 @@
+html, body, #MyConfig {
+    /*background-color: #262626;*/
+    background-color: gray;
+}
+
+/** {*/
+/*    color: whitesmoke;*/
+/*}*/
+
+/*#MyConfig_resetLink {*/
+/*    color: whitesmoke !important;*/
+/*}*/
+
+/*input[type="button"], button {*/
+/*    background-color: #262626;*/
+/*}*/
+
+#MyConfig {
+    margin: 1em;
+}
+
 #MyConfig textarea {
     font-family: "Consolas", monospace !important;
     width: 80%;
@@ -7,8 +28,11 @@
 #MyConfig_install_EnchantedRestraintsPatch_var {
     /*display: inline-block;*/
 }
+
 #MyConfig_Name_var {
     /*display: inline-block;*/
 }
 
-
+.d-inline {
+    display: inline-block !important;
+}
