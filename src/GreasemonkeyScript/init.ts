@@ -8,7 +8,7 @@ import inlineGMCss from '../inlineText/GM.css?inlineText';
     let gmc = new GM_config(
         {
             'id': 'MyConfig', // The id used for this instance of GM_config
-            'title': 'Script Settings', // Panel Title
+            'title': 'Degrees-of-Lewdity Cheats Mod', // Panel Title
             css: inlineGMCss,
             'fields': // Fields object
                 {
