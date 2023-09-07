@@ -59,7 +59,6 @@ export class State {
 
     init() {
         this.table = new Map<string, StateItem>([
-            ['spray', new StateItem('spray', '防狼喷雾', 1000)],
             ['money', new StateItem('money', '金钱', 1000)],
 
             [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
@@ -102,6 +101,10 @@ export class State {
 
             ['spray', new StateItem('spray', '防狼喷雾', 100)],
             ['spraymax', new StateItem('spraymax', '防狼喷雾 总数', 100)],
+
+            [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
+
+            ['condoms', new StateItem('condoms', '避孕套', 1000)],
 
             [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
 

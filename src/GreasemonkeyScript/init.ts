@@ -39,18 +39,33 @@ import {FindValue} from '../Cheats/Tools';
                 css: inlineGMCss + '\n' + inlineBootstrap,
                 'fields': // Fields object
                     {
-                        // 'install_EnchantedRestraintsPatch': {
-                        //     label: 'install EnchantedRestraintsPatch',
-                        //     type: 'button',
-                        //     click() {
-                        //         // // @ts-ignore
-                        //         // unsafeWindow.KDOptOut = true;
-                        //         // EnchantedRestraintsPatch();
-                        //         // unsafeWindow.KinkyDungeonMod_EnchantedRestraints.Cheats.setupHook(unsafeWindow);
-                        //     },
-                        //     // cssStyleText: 'display: inline-block;',
-                        //     cssClassName: 'd-inline btn-sm',
-                        // },
+                        'FindValue_F': {
+                            label: `FindValue`,
+                            type: 'text',
+                            cssClassName: 'd-inline',
+                        },
+                        'FindValue_b': {
+                            label: 'Find',
+                            type: 'button',
+                            click() {
+                                const vv = gmc!.fields['FindValue_F'].toValue();
+                                if (!vv) {
+                                    console.error('FindValue_b (!vv) : ');
+                                    return;
+                                }
+                                const r = parseInt(vv as string);
+                                if (isSafeInteger(r)) {
+                                    const fr = FindValue(r, unsafeWindow);
+                                    gmc!.fields['FindValue_r'].value = JSON.stringify(fr);
+                                    gmc!.fields['FindValue_r'].reload();
+                                }
+                            },
+                            // cssStyleText: 'display: inline-block;',
+                            cssClassName: 'd-inline btn-sm',
+                        },
+                        'FindValue_r': {
+                            type: 'textarea',
+                        },
                         [rId()]: {
                             section: GM_config.create('State Section'),
                             type: 'br',
@@ -130,6 +145,53 @@ import {FindValue} from '../Cheats/Tools';
                                         const r = parseInt(vv as string);
                                         if (isSafeInteger(r)) {
                                             skill.set(s.key, r);
+                                        }
+                                    },
+                                };
+                                o[rId()] = {
+                                    type: 'br',
+                                };
+                            } else {
+                                o[kkk + '_BR'] = {
+                                    label: ``,
+                                    type: 'label',
+                                    cssStyleText: 'margin: 1.5em 0;',
+                                };
+                            }
+                            return assign<InitOptionsNoCustom['fields'], InitOptionsNoCustom['fields']>(acc, o);
+                        }, {} as InitOptionsNoCustom['fields']),
+                        [rId()]: {
+                            section: GM_config.create('Relation Section'),
+                            type: 'br',
+                        },
+                        ...Array.from(relation.table!.values()).reduce<InitOptionsNoCustom['fields']>((acc, s,) => {
+                            const o: InitOptionsNoCustom['fields'] = {};
+                            const kkk = 'Relation_' + s.key;
+                            if (s.tag !== "none") {
+                                o[kkk] = {
+                                    label: s.name,
+                                    type: 'number',
+                                    default: relation.get(s.key),
+                                    cssClassName: 'd-inline',
+                                };
+                                o[kkk + '_l'] = {
+                                    label: `(max:${s.max})`,
+                                    type: 'label',
+                                    cssClassName: 'd-inline',
+                                };
+                                o[kkk + '_b'] = {
+                                    label: 'set',
+                                    type: 'button',
+                                    cssClassName: 'd-inline',
+                                    click() {
+                                        const vv = gmc!.fields[kkk].toValue();
+                                        if (!vv) {
+                                            console.error('(!vv) : ', kkk, s);
+                                            return;
+                                        }
+                                        const r = parseInt(vv as string);
+                                        if (isSafeInteger(r)) {
+                                            relation.set(s.key, r);
                                         }
                                     },
                                 };

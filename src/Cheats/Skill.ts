@@ -66,11 +66,11 @@ export class Skill {
             ['vaginalskill', new SkillItem('vaginalskill', '小穴 技能', 1000)],
             ['feetskill', new SkillItem('feetskill', '足部 技能', 1000)],
             ['thighskill', new SkillItem('thighskill', '腿部 技能', 1000)],
-            ['penileskill', new SkillItem('penileskill', 'penile 技能', 1000)],
+            ['penileskill', new SkillItem('penileskill', '阴茎 技能', 1000)],
 
             [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
 
-            ['corruption_slime', new SkillItem('corruption_slime', '腐败slime', 1000)],
+            ['corruption_slime', new SkillItem('corruption_slime', '堕落slime [less is better]', 1000)],
             ['skulduggery', new SkillItem('skulduggery', '诡术 技能', 1000)],
             ['danceskill', new SkillItem('danceskill', '舞蹈 技能', 1000)],
             ['swimmingskill', new SkillItem('swimmingskill', '游泳 技能', 1000)],
