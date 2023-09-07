@@ -23,6 +23,10 @@ html, body, #MyConfig {
     font-family: "Consolas", monospace !important;
 }
 
+#MyConfig input[type="text"] {
+    background-color: lightgrey;
+}
+
 #MyConfig textarea:focus {
     font-family: "Consolas", monospace !important;
     width: 80%;

@@ -1,4 +1,4 @@
-import {GM_config, Field, InitOptionsNoCustom, GM_configStruct} from '../GM_config_TS/gm_config';
+import {GM_config, Field, InitOptionsNoCustom, GM_configStruct, BootstrapBtnType} from '../GM_config_TS/gm_config';
 // https://stackoverflow.com/questions/42631645/webpack-import-typescript-module-both-normally-and-as-raw-string
 // import inlineGMCss from 'raw-loader!../inlineText/GM.css';
 import inlineGMCss from '../inlineText/GM.css?inlineText';
@@ -19,7 +19,7 @@ import {Relation} from '../Cheats/Relation';
 import {State} from '../Cheats/State';
 import {FindValue} from '../Cheats/Tools';
 
-;
+const btnType: BootstrapBtnType = 'secondary';
 
 (async () => {
     const skill = new Skill(unsafeWindow);
@@ -66,7 +66,8 @@ import {FindValue} from '../Cheats/Tools';
                                 }
                             },
                             // cssStyleText: 'display: inline-block;',
-                            cssClassName: 'd-inline btn-sm',
+                            cssClassName: 'd-inline',
+                            xgmExtendField: {bootstrap: {btnType: btnType}},
                         },
                         'FindValue_r': {
                             type: 'textarea',
@@ -105,6 +106,7 @@ import {FindValue} from '../Cheats/Tools';
                                             state.set(s.key, r);
                                         }
                                     },
+                                    xgmExtendField: {bootstrap: {btnType: btnType}},
                                 };
                                 o[rId()] = {
                                     type: 'br',
@@ -152,6 +154,7 @@ import {FindValue} from '../Cheats/Tools';
                                             skill.set(s.key, r);
                                         }
                                     },
+                                    xgmExtendField: {bootstrap: {btnType: btnType}},
                                 };
                                 o[rId()] = {
                                     type: 'br',
@@ -199,6 +202,7 @@ import {FindValue} from '../Cheats/Tools';
                                             relation.set(s.key, r);
                                         }
                                     },
+                                    xgmExtendField: {bootstrap: {btnType: btnType}},
                                 };
                                 o[rId()] = {
                                     type: 'br',
