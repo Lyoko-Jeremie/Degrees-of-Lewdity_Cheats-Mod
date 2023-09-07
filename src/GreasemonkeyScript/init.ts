@@ -276,7 +276,7 @@ import {FindValue} from '../Cheats/Tools';
                     },
                     open(doc) {
                         doc.addEventListener('keydown', (event) => {
-                            console.log('keydown', event);
+                            // console.log('keydown', event);
                             if (event.altKey && (event.key === 'Q' || event.key === 'q')) {
                                 if (gmc!.isOpen) {
                                     gmc!.close();
@@ -293,7 +293,7 @@ import {FindValue} from '../Cheats/Tools';
     };
     let gmc: undefined | GM_configStruct = undefined;
     window.addEventListener('keydown', (event) => {
-        console.log('keydown', event);
+        // console.log('keydown', event);
         if (event.altKey && (event.key === 'Q' || event.key === 'q')) {
             if (gmc && gmc.isOpen) {
                 gmc.close();
