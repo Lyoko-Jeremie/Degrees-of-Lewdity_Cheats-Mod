@@ -94,13 +94,19 @@ export class State {
 
             [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
 
-            ['scienceprojectdays', new StateItem('scienceprojectdays', '科学 project days', 16)],
-            ['mathsprojectdays', new StateItem('mathsprojectdays', '数学 project days', 22)],
+            ['scienceprojectdays', new StateItem('scienceprojectdays', '科学倒计时', 16)],
+            ['mathsprojectdays', new StateItem('mathsprojectdays', '数学倒计时', 25)],
+            ['adultshopprogress', new StateItem('adultshopprogress', '成人商店开门倒计时', 22)],
 
             [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
 
             ['spray', new StateItem('spray', '防狼喷雾', 100)],
             ['spraymax', new StateItem('spraymax', '防狼喷雾 总数', 100)],
+
+            [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
+
+            ['crimehistory', new StateItem('crimehistory', '犯罪历史', 10)],
+            ['crime', new StateItem('crime', '逮捕实施', 10)],
         ]);
     }
 
