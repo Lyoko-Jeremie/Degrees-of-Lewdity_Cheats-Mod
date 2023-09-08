@@ -18,6 +18,7 @@ import {Skill} from '../Cheats/Skill';
 import {Relation} from '../Cheats/Relation';
 import {State} from '../Cheats/State';
 import {FindValue, GetValue} from '../Cheats/Tools';
+import {NpcRelation} from "../Cheats/NpcRelation";
 
 const btnType: BootstrapBtnType = 'secondary';
 
@@ -25,6 +26,7 @@ const btnType: BootstrapBtnType = 'secondary';
     const skill = new Skill(unsafeWindow);
     const relation = new Relation(unsafeWindow);
     const state = new State(unsafeWindow);
+    const npcRelation = new NpcRelation(unsafeWindow);
     const gmcCreator = () => {
         return new GM_config(
             {
@@ -313,6 +315,177 @@ const btnType: BootstrapBtnType = 'secondary';
                                     label: ``,
                                     type: 'label',
                                     cssStyleText: 'margin: 1.5em 0;',
+                                };
+                            }
+                            return assign<InitOptionsNoCustom['fields'], InitOptionsNoCustom['fields']>(acc, o);
+                        }, {} as InitOptionsNoCustom['fields']),
+                        [rId()]: {
+                            section: GM_config.create('NPC Section'),
+                            type: 'br',
+                        },
+                        ...Array.from(npcRelation.table!.values()).reduce<InitOptionsNoCustom['fields']>((acc, s,) => {
+                            const o: InitOptionsNoCustom['fields'] = {};
+                            const kkk = 'NpcRelation_' + s.name;
+                            o[rId()] = {
+                                section: GM_config.create(`NpcRelation [${s.name}] Section`),
+                                type: 'br',
+                            };
+                            o[kkk + '_' + 'love'] = {
+                                label: `${s.name}:love`,
+                                type: 'number',
+                                default: s.love,
+                                cssClassName: 'd-inline',
+                            };
+                            o[kkk + '_' + 'love' + '_b'] = {
+                                label: 'set',
+                                type: 'button',
+                                cssClassName: 'd-inline',
+                                click() {
+                                    const vv = gmc!.fields[kkk + '_' + 'love'].toValue();
+                                    if (!vv) {
+                                        console.error('(!vv) : ', kkk, s);
+                                        return;
+                                    }
+                                    const r = parseInt(vv as string);
+                                    if (isSafeInteger(r)) {
+                                        s.love = r;
+                                    }
+                                },
+                                xgmExtendField: {bootstrap: {btnType: btnType}},
+                            };
+                            o[rId()] = {
+                                type: 'br',
+                            };
+                            o[kkk + '_' + 'lust'] = {
+                                label: `${s.name}:lust`,
+                                type: 'number',
+                                default: s.lust,
+                                cssClassName: 'd-inline',
+                            };
+                            o[kkk + '_' + 'lust' + '_b'] = {
+                                label: 'set',
+                                type: 'button',
+                                cssClassName: 'd-inline',
+                                click() {
+                                    const vv = gmc!.fields[kkk + '_' + 'lust'].toValue();
+                                    if (!vv) {
+                                        console.error('(!vv) : ', kkk, s);
+                                        return;
+                                    }
+                                    const r = parseInt(vv as string);
+                                    if (isSafeInteger(r)) {
+                                        s.lust = r;
+                                    }
+                                },
+                                xgmExtendField: {bootstrap: {btnType: btnType}},
+                            };
+                            o[rId()] = {
+                                type: 'br',
+                            };
+                            o[kkk + '_' + 'dom'] = {
+                                label: `${s.name}:dom`,
+                                type: 'number',
+                                default: s.dom,
+                                cssClassName: 'd-inline',
+                            };
+                            o[kkk + '_' + 'dom' + '_b'] = {
+                                label: 'set',
+                                type: 'button',
+                                cssClassName: 'd-inline',
+                                click() {
+                                    const vv = gmc!.fields[kkk + '_' + 'dom'].toValue();
+                                    if (!vv) {
+                                        console.error('(!vv) : ', kkk, s);
+                                        return;
+                                    }
+                                    const r = parseInt(vv as string);
+                                    if (isSafeInteger(r)) {
+                                        s.dom = r;
+                                    }
+                                },
+                                xgmExtendField: {bootstrap: {btnType: btnType}},
+                            };
+                            o[rId()] = {
+                                type: 'br',
+                            };
+                            o[kkk + '_' + 'rage'] = {
+                                label: `${s.name}:rage`,
+                                type: 'number',
+                                default: s.rage,
+                                cssClassName: 'd-inline',
+                            };
+                            o[kkk + '_' + 'rage' + '_b'] = {
+                                label: 'set',
+                                type: 'button',
+                                cssClassName: 'd-inline',
+                                click() {
+                                    const vv = gmc!.fields[kkk + '_' + 'rage'].toValue();
+                                    if (!vv) {
+                                        console.error('(!vv) : ', kkk, s);
+                                        return;
+                                    }
+                                    const r = parseInt(vv as string);
+                                    if (isSafeInteger(r)) {
+                                        s.rage = r;
+                                    }
+                                },
+                                xgmExtendField: {bootstrap: {btnType: btnType}},
+                            };
+                            o[rId()] = {
+                                type: 'br',
+                            };
+                            if (s.isSydney(s.npcRef)) {
+                                o[kkk + '_' + 'purity'] = {
+                                    label: `${s.name}:purity`,
+                                    type: 'number',
+                                    default: s.purity,
+                                    cssClassName: 'd-inline',
+                                };
+                                o[kkk + '_' + 'purity' + '_b'] = {
+                                    label: 'set',
+                                    type: 'button',
+                                    cssClassName: 'd-inline',
+                                    click() {
+                                        const vv = gmc!.fields[kkk + '_' + 'purity'].toValue();
+                                        if (!vv) {
+                                            console.error('(!vv) : ', kkk, s);
+                                            return;
+                                        }
+                                        const r = parseInt(vv as string);
+                                        if (isSafeInteger(r)) {
+                                            s.purity = r;
+                                        }
+                                    },
+                                    xgmExtendField: {bootstrap: {btnType: btnType}},
+                                };
+                                o[rId()] = {
+                                    type: 'br',
+                                };
+                                o[kkk + '_' + 'corruption'] = {
+                                    label: `${s.name}:corruption`,
+                                    type: 'number',
+                                    default: s.corruption,
+                                    cssClassName: 'd-inline',
+                                };
+                                o[kkk + '_' + 'corruption' + '_b'] = {
+                                    label: 'set',
+                                    type: 'button',
+                                    cssClassName: 'd-inline',
+                                    click() {
+                                        const vv = gmc!.fields[kkk + '_' + 'corruption'].toValue();
+                                        if (!vv) {
+                                            console.error('(!vv) : ', kkk, s);
+                                            return;
+                                        }
+                                        const r = parseInt(vv as string);
+                                        if (isSafeInteger(r)) {
+                                            s.corruption = r;
+                                        }
+                                    },
+                                    xgmExtendField: {bootstrap: {btnType: btnType}},
+                                };
+                                o[rId()] = {
+                                    type: 'br',
                                 };
                             }
                             return assign<InitOptionsNoCustom['fields'], InitOptionsNoCustom['fields']>(acc, o);
