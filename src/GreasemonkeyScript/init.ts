@@ -401,11 +401,13 @@ interface GlobalInfo {
                             const o: InitOptionsNoCustom['fields'] = {};
                             const kkk = 'NpcRelation_' + s.name;
                             o[rId()] = {
-                                section: GM_config.create(`NpcRelation [${ci}] [${s.name}][${NpcName2CN(s.name)}]`),
+                                section: GM_config.create(
+                                    `NpcRelation [${ci}] [${s.name}][${NpcName2CN(s.name).cnName}]--${NpcName2CN(s.name).dec}`
+                                ),
                                 type: 'br',
                             };
                             o[kkk + '_' + 'love'] = {
-                                label: `${NpcName2CN(s.name)}:爱意love`,
+                                label: `${NpcName2CN(s.name).cnName}:爱意love`,
                                 type: 'number',
                                 default: s.love,
                                 cssClassName: 'd-inline',
@@ -435,7 +437,7 @@ interface GlobalInfo {
                                 type: 'br',
                             };
                             o[kkk + '_' + 'lust'] = {
-                                label: `${NpcName2CN(s.name)}:性欲lust`,
+                                label: `${NpcName2CN(s.name).cnName}:性欲lust`,
                                 type: 'number',
                                 default: s.lust,
                                 cssClassName: 'd-inline',
@@ -465,7 +467,7 @@ interface GlobalInfo {
                                 type: 'br',
                             };
                             o[kkk + '_' + 'dom'] = {
-                                label: `${NpcName2CN(s.name)}:支配dom`,
+                                label: `${NpcName2CN(s.name).cnName}:支配dom`,
                                 type: 'number',
                                 default: s.dom,
                                 cssClassName: 'd-inline',
@@ -495,7 +497,7 @@ interface GlobalInfo {
                                 type: 'br',
                             };
                             o[kkk + '_' + 'rage'] = {
-                                label: `${NpcName2CN(s.name)}:嫉妒rage`,
+                                label: `${NpcName2CN(s.name).cnName}:嫉妒rage`,
                                 type: 'number',
                                 default: s.rage,
                                 cssClassName: 'd-inline',
@@ -526,7 +528,7 @@ interface GlobalInfo {
                             };
                             if (s.isSydney(s.npcRef)) {
                                 o[kkk + '_' + 'purity'] = {
-                                    label: `${NpcName2CN(s.name)}:纯洁purity`,
+                                    label: `${NpcName2CN(s.name).cnName}:纯洁purity`,
                                     type: 'number',
                                     default: s.purity,
                                     cssClassName: 'd-inline',
@@ -556,7 +558,7 @@ interface GlobalInfo {
                                     type: 'br',
                                 };
                                 o[kkk + '_' + 'corruption'] = {
-                                    label: `${NpcName2CN(s.name)}:堕落corruption`,
+                                    label: `${NpcName2CN(s.name).cnName}:堕落corruption`,
                                     type: 'number',
                                     default: s.corruption,
                                     cssClassName: 'd-inline',

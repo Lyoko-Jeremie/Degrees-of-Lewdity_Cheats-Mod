@@ -91,47 +91,60 @@ export class NpcItem {
 const importantNpcOrder = ["Robin", "Whitney", "Eden", "Kylar", "Sydney", "Avery", "Great Hawk", "Black Wolf", "Alex"];
 const specialNPCs = ["Ivory Wraith"];
 
-const NPCNameListKP = new Map([
-    ["Avery", "艾弗里"],
-    ["Bailey", "贝利"],
-    ["Briar", "布莱尔"],
-    ["Charlie", "查里"],
-    ["Darryl", ""],
-    ["Doren", "多伦"],
-    ["Eden", ""],
-    ["Gwylan", ""],
-    ["Harper", "哈珀"],
-    ["Jordan", "约旦"],
-    ["Kylar", "凯拉尔"],
-    ["Landry", "兰德里"],
-    ["Leighton", "礼顿"],
-    ["Mason", "梅森"],
-    ["Morgan", "摩根"],
-    ["River", "瑞沃"],
-    ["Robin", "罗宾"],
-    ["Sam", "萨姆"],
-    ["Sirris", "西里斯"],
-    ["Whitney", "惠特尼"],
-    ["Winter", "温特"],
-    ["Black Wolf", ""],
-    ["Niki", "尼奇"],
-    ["Quinn", ""],
-    ["Remy", "雷米"],
-    ["Alex", "艾利克斯"],
-    ["Great Hawk", "格威岚"],
-    ["Wren", ""],
-    ["Sydney", "悉尼"],
-    ["Ivory Wraith", ""],
-]);
+const NPCNameListKP = [
+    ["Avery", "艾弗里", "商人"],
+    ["Bailey", "贝利", "监护人"],
+    ["Briar", "布莱尔", "妓院老板"],
+    ["Charlie", "查里", "舞蹈教练"],
+    ["Darryl", "达里尔", "俱乐部老板"],
+    ["Doren", "多伦", "英语老师"],
+    ["Eden", "伊甸", "猎人"],
+    ["Gwylan", "格威岚", "商店店主"],
+    ["Harper", "哈珀", "医生"],
+    ["Jordan", "约旦", "虔信者"],
+    ["Kylar", "凯拉尔", "不合群者"],
+    ["Landry", "兰德里", "罪犯"],
+    ["Leighton", "礼顿", "校长"],
+    ["Mason", "梅森", "游泳老师"],
+    ["Morgan", "摩根", "下水道居民"],
+    ["River", "瑞沃", "数学老师"],
+    ["Robin", "罗宾", "孤儿"],
+    ["Sam", "萨姆", "咖啡店主"],
+    ["Sirris", "西里斯", "科学老师"],
+    ["Whitney", "惠特尼", "霸凌者"],
+    ["Winter", "温特", "历史老师"],
+    ["Black Wolf", "黑狼", "头狼"],
+    ["Niki", "尼奇", "摄影师"],
+    ["Quinn", "奎因", "市长"],
+    ["Remy", "雷米", "农场主"],
+    ["Alex", "艾利克斯", "农工"],
+    ["Great Hawk", "巨鹰", "恐怖者"],
+    ["Wren", "伦恩", "走私者"],
+    ["Sydney", "悉尼", "信徒"],
+    ["Ivory Wraith", "", ""],
+];
+
+interface NPCNameListNameInfo {
+    enName: string;
+    cnName: string;
+    dec: string;
+}
+
+const NPCNameListMP: Map<string, NPCNameListNameInfo> = new Map(NPCNameListKP.map(T => {
+    return [T[0], {
+        enName: T[0],
+        cnName: T[1] || T[0],
+        dec: T[2],
+    } as NPCNameListNameInfo];
+}));
 
 export function NpcName2CN(name: string) {
-    const n = NPCNameListKP.get(name);
+    const n = NPCNameListMP.get(name);
     if (n) {
-        if (n.length !== 0) {
-            return n;
-        }
+        return n;
     }
-    return name;
+    console.error('NpcName2CN !n', name, n, NPCNameListMP);
+    throw new Error('NpcName2CN !n');
 }
 
 class CustomIterableIterator<T, Parent> implements IterableIterator<T> {
