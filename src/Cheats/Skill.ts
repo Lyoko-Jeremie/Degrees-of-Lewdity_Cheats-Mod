@@ -22,11 +22,11 @@ export class SkillItem {
     }
 }
 
-export class StateItemPlaceHolder extends SkillItem {
+export class ItemPlaceHolder extends SkillItem {
     tag: TagType = 'none';
 
     constructor() {
-        super(StateItemPlaceHolder.rId(), '', 0);
+        super(ItemPlaceHolder.rId(), '', 0);
     }
 
     // avoid same Math.random
@@ -34,7 +34,7 @@ export class StateItemPlaceHolder extends SkillItem {
 
     // get a unique string as id
     static rId() {
-        return '' + (++StateItemPlaceHolder.rIdP) + Math.random();
+        return '' + (++ItemPlaceHolder.rIdP) + Math.random();
     }
 }
 
@@ -68,7 +68,7 @@ export class Skill {
             ['thighskill', new SkillItem('thighskill', '腿部 技能', 1000)],
             ['penileskill', new SkillItem('penileskill', '阴茎 技能', 1000)],
 
-            [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
+            [ItemPlaceHolder.rId(), new ItemPlaceHolder()],
 
             ['corruption_slime', new SkillItem('corruption_slime', '堕落slime [less is better]', 1000)],
             ['skulduggery', new SkillItem('skulduggery', '诡术 技能', 1000)],
@@ -78,7 +78,7 @@ export class Skill {
             ['tending', new SkillItem('tending', '护理 技能', 1000)],
             ['housekeeping', new SkillItem('housekeeping', '家务 技能', 1000)],
 
-            [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
+            [ItemPlaceHolder.rId(), new ItemPlaceHolder()],
 
             ['science', new SkillItem('science', '科学 经验', 1000)],
             ['sciencetrait', new SkillItem('sciencetrait', '科学 等级', 4)],
@@ -89,7 +89,7 @@ export class Skill {
             ['history', new SkillItem('history', '历史 经验', 1000)],
             ['historytrait', new SkillItem('historytrait', '历史 等级', 4)],
 
-            [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
+            [ItemPlaceHolder.rId(), new ItemPlaceHolder()],
 
             ['prof.spray', new SkillItem('prof.spray', '防狼喷雾 技能', 1000)],
             ['prof.net', new SkillItem('prof.net', '网 技能', 1000)],

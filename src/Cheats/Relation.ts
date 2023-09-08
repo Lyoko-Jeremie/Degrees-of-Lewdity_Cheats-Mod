@@ -1,5 +1,4 @@
 import {get, isString, set} from 'lodash';
-import {StateItem} from "./State";
 
 type TagType = 'item' | 'none';
 
@@ -23,11 +22,11 @@ export class RelationItem {
     }
 }
 
-export class StateItemPlaceHolder extends RelationItem {
+export class ItemPlaceHolder extends RelationItem {
     tag: TagType = 'none';
 
     constructor() {
-        super(StateItemPlaceHolder.rId(), '', 0);
+        super(ItemPlaceHolder.rId(), '', 0);
     }
 
     // avoid same Math.random
@@ -35,7 +34,7 @@ export class StateItemPlaceHolder extends RelationItem {
 
     // get a unique string as id
     static rId() {
-        return '' + (++StateItemPlaceHolder.rIdP) + Math.random();
+        return '' + (++ItemPlaceHolder.rIdP) + Math.random();
     }
 }
 
@@ -71,14 +70,14 @@ export class Relation {
             ['fame.business', new RelationItem('fame.business', '商业 声名 (more is good)', 1000)],
             ['fame.social', new RelationItem('fame.social', '社交 声名 (more is good)', 1000)],
 
-            [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
+            [ItemPlaceHolder.rId(), new ItemPlaceHolder()],
 
             ['farm.beasts.horses', new RelationItem('farm.beasts.horses', '马群', 1000)],
             ['farm.beasts.pigs', new RelationItem('farm.beasts.pigs', '猪群', 1000)],
             ['farm.beasts.cattle', new RelationItem('farm.beasts.cattle', '牛群', 1000)],
             ['farm.beasts.dogs', new RelationItem('farm.beasts.dogs', '狗群', 1000)],
 
-            [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
+            [ItemPlaceHolder.rId(), new ItemPlaceHolder()],
 
             ['cool', new RelationItem('cool', '同学 声名', 'coolmax', 0, this.thisW)],
             ['delinquency', new RelationItem('delinquency', '学校违规', 1000, 0, this.thisW)],
@@ -87,7 +86,7 @@ export class Relation {
             ['orphan_hope', new RelationItem('orphan_hope', '孤儿院希望 [-100~100]', 100, -100)],
             ['orphan_reb', new RelationItem('orphan_reb', '孤儿院叛逆 [-100~100]', 100, -100)],
 
-            [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
+            [ItemPlaceHolder.rId(), new ItemPlaceHolder()],
 
             ['upperwet', new RelationItem('upperwet', '上着湿度', 10000)],
             ['worn.upper.integrity', new RelationItem('worn.upper.integrity', '上着耐久', 10000)],
