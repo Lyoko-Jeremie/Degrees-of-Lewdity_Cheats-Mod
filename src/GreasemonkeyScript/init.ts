@@ -12,7 +12,7 @@ function rId() {
     return '' + (++rIdP) + Math.random();
 }
 
-import {assign, parseInt, isSafeInteger, isString, isNil} from 'lodash';
+import {assign, parseInt, isSafeInteger, isString, isNil, isArray} from 'lodash';
 
 import {Skill} from '../Cheats/Skill';
 import {Relation} from '../Cheats/Relation';
@@ -23,13 +23,63 @@ import {PlayerState} from "../Cheats/PlayerState";
 
 const btnType: BootstrapBtnType = 'secondary';
 
+class SearchHistory {
+    constructor(
+        public k: string = 'SearchHistory',
+    ) {
+    }
+
+    protected read() {
+        try {
+            const j = localStorage.getItem(this.k);
+            if (!j) {
+                return [];
+            }
+            const l = JSON.parse(j);
+            return isArray(l) ? l : [];
+        } catch (e: any) {
+            console.error(e);
+            return [];
+        }
+    }
+
+    add(s: string) {
+        const l = this.read();
+        l.push(s);
+        localStorage.setItem(this.k, JSON.stringify(l));
+    }
+
+    getList(): string[] {
+        return this.read();
+    }
+}
+
+interface GlobalInfo {
+    SearchHistory_GetValue: SearchHistory,
+    skill: Skill,
+    relation: Relation,
+    state: State,
+    npcRelation: NpcRelation,
+    playerState: PlayerState,
+}
+;
 (async () => {
-    const skill = new Skill(unsafeWindow);
-    const relation = new Relation(unsafeWindow);
-    const state = new State(unsafeWindow);
-    const npcRelation = new NpcRelation(unsafeWindow);
-    const playerState = new PlayerState(unsafeWindow);
+    let g: GlobalInfo;
+    const initG = () => {
+        if (!g) {
+            console.log('initG');
+            g = {
+                SearchHistory_GetValue: new SearchHistory('SearchHistory_GetValue'),
+                skill: new Skill(unsafeWindow),
+                relation: new Relation(unsafeWindow),
+                state: new State(unsafeWindow),
+                npcRelation: new NpcRelation(unsafeWindow),
+                playerState: new PlayerState(unsafeWindow),
+            };
+        }
+    };
     const gmcCreator = () => {
+        initG();
         return new GM_config(
             {
                 xgmExtendInfo: {
@@ -84,14 +134,23 @@ const btnType: BootstrapBtnType = 'secondary';
                         },
                         'GetValue_K': {
                             label: `GetValueKeyName`,
-                            type: 'text',
+                            type: 'datalist',
                             cssClassName: 'd-inline',
+                            options: g.SearchHistory_GetValue.getList(),
                         },
                         'GetValue_b': {
                             label: 'Get',
                             type: 'button',
+                            // keydown: (ev: KeyboardEvent) => {
+                            //     console.log('onkeydown', ev);
+                            //     const vvv = gmc!.fields['GetValue_K'].value;
+                            //     console.log('vvv', vvv);
+                            // },
                             click() {
                                 const vv = gmc!.fields['GetValue_K'].toValue();
+                                const vvv = gmc!.fields['GetValue_K'].value;
+                                console.log('vv', vv);
+                                console.log('vvv', vvv);
                                 if (isNil(vv)) {
                                     console.error('GetValue_b (!vv) : ');
                                     return;
@@ -100,6 +159,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                     console.error('GetValue_b (!isString(vv)) : ');
                                     return;
                                 }
+                                g.SearchHistory_GetValue.add(vv);
                                 const fr = GetValue(vv, unsafeWindow);
                                 gmc!.fields['GetValue_r'].value = JSON.stringify(fr, undefined, 2);
                                 gmc!.fields['GetValue_r'].reload();
@@ -115,14 +175,14 @@ const btnType: BootstrapBtnType = 'secondary';
                             section: GM_config.create('State Section'),
                             type: 'br',
                         },
-                        ...Array.from(state.table!.values()).reduce<InitOptionsNoCustom['fields']>((acc, s,) => {
+                        ...Array.from(g.state.table!.values()).reduce<InitOptionsNoCustom['fields']>((acc, s,) => {
                             const o: InitOptionsNoCustom['fields'] = {};
                             const kkk = 'State_' + s.key;
                             if (s.tag !== "none") {
                                 o[kkk] = {
                                     label: s.name,
                                     type: 'number',
-                                    default: state.get(s.key),
+                                    default: g.state.get(s.key),
                                     cssClassName: 'd-inline',
                                 };
                                 o[kkk + '_l'] = {
@@ -142,7 +202,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                         }
                                         const r = parseInt(vv as string);
                                         if (isSafeInteger(r)) {
-                                            state.set(s.key, r);
+                                            g.state.set(s.key, r);
                                         } else {
                                             console.error('!(isSafeInteger(r)) : ', kkk, s, r);
                                             return;
@@ -155,7 +215,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                     type: 'button',
                                     cssClassName: 'd-inline',
                                     click() {
-                                        state.set(s.key, s.max);
+                                        g.state.set(s.key, s.max);
                                         gmc!.fields[kkk].value = s.max;
                                         gmc!.fields[kkk].reload();
                                     },
@@ -167,7 +227,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                     cssClassName: 'd-inline',
                                     click() {
                                         const vv = gmc!.fields[kkk].toValue();
-                                        state.set(s.key, 0);
+                                        g.state.set(s.key, 0);
                                         gmc!.fields[kkk].value = 0;
                                         gmc!.fields[kkk].reload();
                                     },
@@ -189,14 +249,14 @@ const btnType: BootstrapBtnType = 'secondary';
                             section: GM_config.create('Skill Section'),
                             type: 'br',
                         },
-                        ...Array.from(skill.table!.values()).reduce<InitOptionsNoCustom['fields']>((acc, s,) => {
+                        ...Array.from(g.skill.table!.values()).reduce<InitOptionsNoCustom['fields']>((acc, s,) => {
                             const o: InitOptionsNoCustom['fields'] = {};
                             const kkk = 'Skill_' + s.key;
                             if (s.tag !== "none") {
                                 o[kkk] = {
                                     label: s.name,
                                     type: 'number',
-                                    default: skill.get(s.key),
+                                    default: g.skill.get(s.key),
                                     cssClassName: 'd-inline',
                                 };
                                 o[kkk + '_l'] = {
@@ -216,7 +276,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                         }
                                         const r = parseInt(vv as string);
                                         if (isSafeInteger(r)) {
-                                            skill.set(s.key, r);
+                                            g.skill.set(s.key, r);
                                         } else {
                                             console.error('!(isSafeInteger(r)) : ', kkk, s, r);
                                             return;
@@ -229,7 +289,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                     type: 'button',
                                     cssClassName: 'd-inline',
                                     click() {
-                                        skill.set(s.key, s.max);
+                                        g.skill.set(s.key, s.max);
                                         gmc!.fields[kkk].value = s.max;
                                         gmc!.fields[kkk].reload();
                                     },
@@ -241,7 +301,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                     cssClassName: 'd-inline',
                                     click() {
                                         const vv = gmc!.fields[kkk].toValue();
-                                        skill.set(s.key, 0);
+                                        g.skill.set(s.key, 0);
                                         gmc!.fields[kkk].value = 0;
                                         gmc!.fields[kkk].reload();
                                     },
@@ -263,14 +323,14 @@ const btnType: BootstrapBtnType = 'secondary';
                             section: GM_config.create('Relation Section'),
                             type: 'br',
                         },
-                        ...Array.from(relation.table!.values()).reduce<InitOptionsNoCustom['fields']>((acc, s,) => {
+                        ...Array.from(g.relation.table!.values()).reduce<InitOptionsNoCustom['fields']>((acc, s,) => {
                             const o: InitOptionsNoCustom['fields'] = {};
                             const kkk = 'Relation_' + s.key;
                             if (s.tag !== "none") {
                                 o[kkk] = {
                                     label: s.name,
                                     type: 'number',
-                                    default: relation.get(s.key),
+                                    default: g.relation.get(s.key),
                                     cssClassName: 'd-inline',
                                 };
                                 o[kkk + '_l'] = {
@@ -290,7 +350,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                         }
                                         const r = parseInt(vv as string);
                                         if (isSafeInteger(r)) {
-                                            relation.set(s.key, r);
+                                            g.relation.set(s.key, r);
                                         } else {
                                             console.error('!(isSafeInteger(r)) : ', kkk, s, r);
                                             return;
@@ -303,7 +363,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                     type: 'button',
                                     cssClassName: 'd-inline',
                                     click() {
-                                        relation.set(s.key, s.max);
+                                        g.relation.set(s.key, s.max);
                                         gmc!.fields[kkk].value = s.max;
                                         gmc!.fields[kkk].reload();
                                     },
@@ -315,7 +375,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                     cssClassName: 'd-inline',
                                     click() {
                                         const vv = gmc!.fields[kkk].toValue();
-                                        relation.set(s.key, 0);
+                                        g.relation.set(s.key, 0);
                                         gmc!.fields[kkk].value = 0;
                                         gmc!.fields[kkk].reload();
                                     },
@@ -337,7 +397,7 @@ const btnType: BootstrapBtnType = 'secondary';
                             section: GM_config.create('NPC Section'),
                             type: 'br',
                         },
-                        ...Array.from(npcRelation.iterateIt().values()).reduce<InitOptionsNoCustom['fields']>((acc, s, ci) => {
+                        ...Array.from(g.npcRelation.iterateIt().values()).reduce<InitOptionsNoCustom['fields']>((acc, s, ci) => {
                             const o: InitOptionsNoCustom['fields'] = {};
                             const kkk = 'NpcRelation_' + s.name;
                             o[rId()] = {
@@ -532,14 +592,14 @@ const btnType: BootstrapBtnType = 'secondary';
                             section: GM_config.create('PlayerState Section'),
                             type: 'br',
                         },
-                        ...Array.from(playerState.table!.values()).reduce<InitOptionsNoCustom['fields']>((acc, s,) => {
+                        ...Array.from(g.playerState.table!.values()).reduce<InitOptionsNoCustom['fields']>((acc, s,) => {
                             const o: InitOptionsNoCustom['fields'] = {};
                             const kkk = 'PlayerState_' + s.key;
                             if (s.tag !== "none") {
                                 o[kkk] = {
                                     label: s.name,
                                     type: 'number',
-                                    default: playerState.get(s.key),
+                                    default: g.playerState.get(s.key),
                                     cssClassName: 'd-inline',
                                 };
                                 o[kkk + '_l'] = {
@@ -559,7 +619,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                         }
                                         const r = parseInt(vv as string);
                                         if (isSafeInteger(r)) {
-                                            playerState.set(s.key, r);
+                                            g.playerState.set(s.key, r);
                                         }
                                     },
                                     xgmExtendField: {bootstrap: {btnType: btnType}},
@@ -569,7 +629,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                     type: 'button',
                                     cssClassName: 'd-inline',
                                     click() {
-                                        relation.set(s.key, s.max);
+                                        g.relation.set(s.key, s.max);
                                         gmc!.fields[kkk].value = s.max;
                                         gmc!.fields[kkk].reload();
                                     },
@@ -581,7 +641,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                     cssClassName: 'd-inline',
                                     click() {
                                         const vv = gmc!.fields[kkk].toValue();
-                                        relation.set(s.key, 0);
+                                        g.relation.set(s.key, 0);
                                         gmc!.fields[kkk].value = 0;
                                         gmc!.fields[kkk].reload();
                                     },

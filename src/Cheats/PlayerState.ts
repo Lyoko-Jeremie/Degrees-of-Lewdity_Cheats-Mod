@@ -69,30 +69,37 @@ export class PlayerState {
     table?: Map<string, PSI>;
 
     init() {
-        this.table = new Map<string, PSI>([
-            ['player.breastsize', new PSI('player.breastsize', '乳房 size', 'breastsizemax', 'breastsizemin', this.thisW)],
-            ['breastgrowthtimer', new PSI('breastgrowthtimer', '乳房 成长 timer', 1000, 0, this.thisW)],
-            ['lactating', new PSI('lactating', '哺乳期', 1, 0, this.thisW)],
-            ['milk_amount', new PSI('milk_amount', '乳量', 1000, 0, this.thisW)],
-            ['milk_volume', new PSI('milk_volume', '母乳容量', 1000, 0, this.thisW)],
+        this.table = new Map<string, PSI>();
 
-            [ItemPlaceHolder.rId(), new ItemPlaceHolder()],
+        [
+            new PSI('player.breastsize', '乳房 size', 'breastsizemax', 'breastsizemin', this.thisW),
+            new PSI('breastgrowthtimer', '乳房 成长 timer', 1000, 0, this.thisW),
+            new PSI('lactating', '哺乳期', 1, 0, this.thisW),
+            new PSI('milk_amount', '乳量', 1000, 0, this.thisW),
+            new PSI('milk_volume', '母乳容量', 1000, 0, this.thisW),
+            new ItemPlaceHolder(),
             // sexStats.pills
-
-            ['player.penisExist', new PSI('player.penisExist', '阴茎 Exist', 1, 0, this.thisW)],
-            ['player.penissize', new PSI('player.penissize', '阴茎 size', 'penissizemax', 'penissizemin', this.thisW)],
-            ['penisgrowthtimer', new PSI('penisgrowthtimer', '阴茎 成长 timer', 1000, 0, this.thisW)],
-            ['semen_amount', new PSI('semen_amount', '精液量', 1000, 0, this.thisW)],
-            ['semen_volume', new PSI('semen_volume', '精液容量', 1000, 0, this.thisW)],
-
-            [ItemPlaceHolder.rId(), new ItemPlaceHolder()],
-
-            ['player.bottomsize', new PSI('player.bottomsize', '屁股 size', 'bottomsizemax', 'bottomsizemin', this.thisW)],
-            ['bottomgrowthtimer', new PSI('bottomgrowthtimer', '屁股 成长 timer', 1000, 0, this.thisW)],
-
-            [ItemPlaceHolder.rId(), new ItemPlaceHolder()],
-
-        ]);
+            new PSI('player.penisExist', '阴茎 Exist', 1, 0, this.thisW),
+            new PSI('player.penissize', '阴茎 size', 'penissizemax', 'penissizemin', this.thisW),
+            new PSI('penisgrowthtimer', '阴茎 成长 timer', 1000, 0, this.thisW),
+            new PSI('semen_amount', '精液量', 1000, 0, this.thisW),
+            new PSI('semen_volume', '精液容量', 1000, 0, this.thisW),
+            new ItemPlaceHolder(),
+            new PSI('player.bottomsize', '屁股 size', 'bottomsizemax', 'bottomsizemin', this.thisW),
+            new PSI('bottomgrowthtimer', '屁股 成长 timer', 1000, 0, this.thisW),
+            new ItemPlaceHolder(),
+            new PSI('sexStats.vagina.pregnancy', '月经周期内的当前天数', 0, 0, this.thisW),
+            new ItemPlaceHolder(),
+            new PSI('sexStats.vagina.menstruation.currentDay', '月经周期内的当前天数', 0, 0, this.thisW),
+            new PSI('sexStats.vagina.menstruation.currentDaysMax', '月经周期内的最后一天', 29, 0, this.thisW),
+            new PSI('sexStats.vagina.menstruation.stages[2]', '月经最危险的日子', 15, 0, this.thisW),
+            new ItemPlaceHolder(),
+            new PSI('pregnancyStats.totalDaysPregnant', '总计怀孕天数', 0, 0, this.thisW),
+            new PSI('pregnancyStats.totalDaysPregnancyKnown', '总计知晓的怀孕天数', 0, 0, this.thisW),
+            new ItemPlaceHolder(),
+        ].map(T => {
+            this.table!.set(T.key, T);
+        });
     }
 
 }
