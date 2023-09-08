@@ -18,7 +18,7 @@ import {Skill} from '../Cheats/Skill';
 import {Relation} from '../Cheats/Relation';
 import {State} from '../Cheats/State';
 import {FindValue, GetValue} from '../Cheats/Tools';
-import {NpcRelation} from "../Cheats/NpcRelation";
+import {NpcName2CN, NpcRelation} from "../Cheats/NpcRelation";
 
 const btnType: BootstrapBtnType = 'secondary';
 
@@ -323,15 +323,15 @@ const btnType: BootstrapBtnType = 'secondary';
                             section: GM_config.create('NPC Section'),
                             type: 'br',
                         },
-                        ...Array.from(npcRelation.table!.values()).reduce<InitOptionsNoCustom['fields']>((acc, s,) => {
+                        ...Array.from(npcRelation.iterateIt().values()).reduce<InitOptionsNoCustom['fields']>((acc, s, ci) => {
                             const o: InitOptionsNoCustom['fields'] = {};
                             const kkk = 'NpcRelation_' + s.name;
                             o[rId()] = {
-                                section: GM_config.create(`NpcRelation [${s.name}] Section`),
+                                section: GM_config.create(`NpcRelation [${ci}] [${s.name}][${NpcName2CN(s.name)}]`),
                                 type: 'br',
                             };
                             o[kkk + '_' + 'love'] = {
-                                label: `${s.name}:love`,
+                                label: `${NpcName2CN(s.name)}:love`,
                                 type: 'number',
                                 default: s.love,
                                 cssClassName: 'd-inline',
@@ -357,7 +357,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                 type: 'br',
                             };
                             o[kkk + '_' + 'lust'] = {
-                                label: `${s.name}:lust`,
+                                label: `${NpcName2CN(s.name)}:lust`,
                                 type: 'number',
                                 default: s.lust,
                                 cssClassName: 'd-inline',
@@ -383,7 +383,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                 type: 'br',
                             };
                             o[kkk + '_' + 'dom'] = {
-                                label: `${s.name}:dom`,
+                                label: `${NpcName2CN(s.name)}:dom`,
                                 type: 'number',
                                 default: s.dom,
                                 cssClassName: 'd-inline',
@@ -409,7 +409,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                 type: 'br',
                             };
                             o[kkk + '_' + 'rage'] = {
-                                label: `${s.name}:rage`,
+                                label: `${NpcName2CN(s.name)}:rage`,
                                 type: 'number',
                                 default: s.rage,
                                 cssClassName: 'd-inline',
@@ -436,7 +436,7 @@ const btnType: BootstrapBtnType = 'secondary';
                             };
                             if (s.isSydney(s.npcRef)) {
                                 o[kkk + '_' + 'purity'] = {
-                                    label: `${s.name}:purity`,
+                                    label: `${NpcName2CN(s.name)}:purity`,
                                     type: 'number',
                                     default: s.purity,
                                     cssClassName: 'd-inline',
@@ -462,7 +462,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                     type: 'br',
                                 };
                                 o[kkk + '_' + 'corruption'] = {
-                                    label: `${s.name}:corruption`,
+                                    label: `${NpcName2CN(s.name)}:corruption`,
                                     type: 'number',
                                     default: s.corruption,
                                     cssClassName: 'd-inline',

@@ -1,4 +1,5 @@
-import {get, isString, set, isNil} from 'lodash';
+import {get, isString, set, isNil, uniqBy, cloneDeep} from 'lodash';
+import {NpcKylar, NpcStateBase100, NpcSydney} from "./NpcStateBaseType";
 
 export class NpcItem {
     constructor(
@@ -87,81 +88,170 @@ export class NpcItem {
     }
 }
 
-// NPCNameList = ["Avery","Bailey","Briar","Charlie","Darryl","Doren","Eden","Gwylan","Harper","Jordan","Kylar","Landry","Leighton","Mason","Morgan","River","Robin","Sam","Sirris","Whitney","Winter","Black Wolf","Niki","Quinn","Remy","Alex","Great Hawk","Wren","Sydney","Ivory Wraith"];
+const importantNpcOrder = ["Robin", "Whitney", "Eden", "Kylar", "Sydney", "Avery", "Great Hawk", "Black Wolf", "Alex"];
+const specialNPCs = ["Ivory Wraith"];
 
-interface NpcStateBase0 {
-    chastity: { penis: "", vagina: "", anus: "" },
-    location: {},
-    skills: {},
-    pronouns: {},
-    traits: [],
+const NPCNameListKP = new Map([
+    ["Avery", "艾弗里"],
+    ["Bailey", "贝利"],
+    ["Briar", "布莱尔"],
+    ["Charlie", "查里"],
+    ["Darryl", ""],
+    ["Doren", "多伦"],
+    ["Eden", ""],
+    ["Gwylan", ""],
+    ["Harper", "哈珀"],
+    ["Jordan", "约旦"],
+    ["Kylar", "凯拉尔"],
+    ["Landry", "兰德里"],
+    ["Leighton", "礼顿"],
+    ["Mason", "梅森"],
+    ["Morgan", "摩根"],
+    ["River", "瑞沃"],
+    ["Robin", "罗宾"],
+    ["Sam", "萨姆"],
+    ["Sirris", "西里斯"],
+    ["Whitney", "惠特尼"],
+    ["Winter", "温特"],
+    ["Black Wolf", ""],
+    ["Niki", "尼奇"],
+    ["Quinn", ""],
+    ["Remy", "雷米"],
+    ["Alex", "艾利克斯"],
+    ["Great Hawk", "格威岚"],
+    ["Wren", ""],
+    ["Sydney", "悉尼"],
+    ["Ivory Wraith", ""],
+]);
+
+export function NpcName2CN(name: string) {
+    const n = NPCNameListKP.get(name);
+    if (n) {
+        if (n.length !== 0) {
+            return n;
+        }
+    }
+    return name;
 }
 
-interface NpcStateBase1 extends NpcStateBase0 {
-    penis: string,
-    vagina: string,
-    gender: string,
-    description: string,
-    title: string,
-    insecurity: string,
-    pronoun: string,
-    pronouns: { [key: string]: string },
-    penissize: number,
-    penisdesc: string,
-    bottomsize: number,
-    ballssize: number,
-    breastsize: number,
-    breastdesc: string,
-    breastsdesc: string,
-    skincolour: number,
-    teen: number,
-    adult: number,
-    init: number,
-    intro: string,
-    type: string,
-    trust: number,
-    love: number,
-    dom: number,
-    lust: number,
-    rage: number,
-    state: string,
-    trauma: number,
-    eyeColour: string,
-    hairColour: string,
-    virginity: {
-        vaginal: boolean,
-        temple: boolean,
-        oral: boolean,
-        anal: boolean,
-        handholding: string,
-        kiss: string,
-        penile: string,
-    },
+class CustomIterableIterator<T, Parent> implements IterableIterator<T> {
+    index = 0;
+
+    constructor(
+        public parent: Parent,
+        public nextF: (index: number, p: Parent, ito: CustomIterableIterator<T, Parent>) => IteratorResult<T>,
+    ) {
+    }
+
+    [Symbol.iterator](): IterableIterator<T> {
+        return this;
+    }
+
+    next(...args: [] | [undefined]): IteratorResult<T> {
+        const r = this.nextF(
+            this.index,
+            this.parent,
+            this
+        );
+        ++this.index;
+        return r;
+    }
 }
 
-interface NpcStateBase2 extends NpcStateBase1 {
-    sextoys: { [key: string]: any[] },
-    outfits: string[],
-    clothes: {
-        lower: { name: string, integrity: number },
-        upper: { name: string, integrity: number },
-    },
-}
+export class NpcIterable implements ReadonlyMap<string, NpcItem> {
+    orderedName: string[];
 
-interface NpcStateBase3 extends NpcStateBase2 {
-    nam: string,
-}
+    constructor(
+        public baseRef: NpcRelation,
+    ) {
+        this.orderedName =
+            uniqBy((
+                [] as string[]
+            ).concat(
+                cloneDeep(importantNpcOrder)
+            ).concat(
+                cloneDeep(specialNPCs)
+            ).concat(
+                cloneDeep(this.baseRef.NPCNameList)
+            ), T => T);
+        console.log('this.orderedName', this.orderedName);
+    }
 
-interface NpcStateBase100 extends NpcStateBase3 {
-}
+    get size(): number {
+        return this.orderedName.length;
+    }
 
-interface NpcSydney extends NpcStateBase100 {
-    purity: number,
-    corruption: number,
-}
+    [Symbol.iterator](): IterableIterator<[string, NpcItem]> {
+        return this.entries();
+    }
 
-interface NpcKylar extends NpcStateBase100 {
-    rage: number,
+    entries(): IterableIterator<[string, NpcItem]> {
+        return new CustomIterableIterator<[string, NpcItem], typeof this>(
+            this,
+            (index, p, ito) => {
+                if (index >= this.size) {
+                    return {done: true, value: undefined};
+                } else {
+                    const it = this.orderedName[index];
+                    const itt = this.get(it);
+                    console.log('entries()', index, it, itt);
+                    if (!it || !itt) {
+                        console.error('entries() (!it || !itt)', index, it, itt);
+                        throw new Error('entries() (!it || !itt)');
+                    }
+                    return {done: false, value: [it, itt]};
+                }
+            }
+        );
+    }
+
+    forEach(callback: (value: NpcItem, key: string, map: ReadonlyMap<string, NpcItem>) => void, thisArg?: any): void {
+        this.orderedName.forEach((TT) => {
+            const itt = this.get(TT);
+            if (!TT || !itt) {
+                console.log('forEach()', TT, itt);
+                console.error('forEach() (!TT || !itt)', TT, itt);
+                throw new Error('forEach() (!TT || !itt)');
+            }
+            callback.call(thisArg, itt, TT, this);
+        });
+    }
+
+    get(key: string): NpcItem | undefined {
+        return this.baseRef.table?.get(key);
+    }
+
+    has(key: string): boolean {
+        return !!this.baseRef.table?.has(key);
+    }
+
+    keys(): IterableIterator<string> {
+        return new CustomIterableIterator<string, typeof this>(
+            this,
+            (index, p, ito) => {
+                if (index >= this.size) {
+                    return {done: true, value: undefined};
+                } else {
+                    const it = this.orderedName[index];
+                    return {done: false, value: it};
+                }
+            }
+        );
+    }
+
+    values(): IterableIterator<NpcItem> {
+        return new CustomIterableIterator<NpcItem, typeof this>(
+            this,
+            (index, p, ito) => {
+                if (index >= this.size) {
+                    return {done: true, value: undefined};
+                } else {
+                    const it = this.orderedName[index];
+                    return {done: false, value: this.get(it)!};
+                }
+            }
+        );
+    }
 }
 
 export class NpcRelation {
@@ -198,5 +288,10 @@ export class NpcRelation {
         this.NPCNameList.forEach(N => {
             this.table!.set(N, new NpcItem(this, N));
         });
+        this.table.entries();
+    }
+
+    iterateIt() {
+        return new NpcIterable(this);
     }
 }
