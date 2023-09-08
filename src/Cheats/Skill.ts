@@ -80,10 +80,14 @@ export class Skill {
 
             [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
 
-            ['science', new SkillItem('science', '科学 技能', 1000)],
-            ['maths', new SkillItem('maths', '数学 技能', 1000)],
-            ['english', new SkillItem('english', '英语 技能', 1000)],
-            ['history', new SkillItem('history', '历史 技能', 1000)],
+            ['science', new SkillItem('science', '科学 经验', 1000)],
+            ['sciencetrait', new SkillItem('sciencetrait', '科学 等级', 4)],
+            ['maths', new SkillItem('maths', '数学 经验', 1000)],
+            ['mathstrait', new SkillItem('mathstrait', '数学 等级', 4)],
+            ['english', new SkillItem('english', '英语 经验', 1000)],
+            ['englishtrait', new SkillItem('englishtrait', '英语 等级', 4)],
+            ['history', new SkillItem('history', '历史 经验', 1000)],
+            ['historytrait', new SkillItem('historytrait', '历史 等级', 4)],
 
             [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
 

@@ -12,12 +12,12 @@ function rId() {
     return '' + (++rIdP) + Math.random();
 }
 
-import {assign, parseInt, isSafeInteger} from 'lodash';
+import {assign, parseInt, isSafeInteger, isString} from 'lodash';
 
 import {Skill} from '../Cheats/Skill';
 import {Relation} from '../Cheats/Relation';
 import {State} from '../Cheats/State';
-import {FindValue} from '../Cheats/Tools';
+import {FindValue, GetValue} from '../Cheats/Tools';
 
 const btnType: BootstrapBtnType = 'secondary';
 
@@ -61,7 +61,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                 const r = parseInt(vv as string);
                                 if (isSafeInteger(r)) {
                                     const fr = FindValue(r, unsafeWindow);
-                                    gmc!.fields['FindValue_r'].value = JSON.stringify(fr);
+                                    gmc!.fields['FindValue_r'].value = JSON.stringify(fr, undefined, 2);
                                     gmc!.fields['FindValue_r'].reload();
                                 }
                             },
@@ -70,6 +70,38 @@ const btnType: BootstrapBtnType = 'secondary';
                             xgmExtendField: {bootstrap: {btnType: btnType}},
                         },
                         'FindValue_r': {
+                            type: 'textarea',
+                        },
+                        [rId()]: {
+                            type: 'br',
+                        },
+                        'GetValue_K': {
+                            label: `GetValueKeyName`,
+                            type: 'text',
+                            cssClassName: 'd-inline',
+                        },
+                        'GetValue_b': {
+                            label: 'Find',
+                            type: 'button',
+                            click() {
+                                const vv = gmc!.fields['GetValue_K'].toValue();
+                                if (!vv) {
+                                    console.error('GetValue_b (!vv) : ');
+                                    return;
+                                }
+                                if (!isString(vv)) {
+                                    console.error('GetValue_b (!isString(vv)) : ');
+                                    return;
+                                }
+                                const fr = GetValue(vv, unsafeWindow);
+                                gmc!.fields['GetValue_r'].value = JSON.stringify(fr, undefined, 2);
+                                gmc!.fields['GetValue_r'].reload();
+                            },
+                            // cssStyleText: 'display: inline-block;',
+                            cssClassName: 'd-inline',
+                            xgmExtendField: {bootstrap: {btnType: btnType}},
+                        },
+                        'GetValue_r': {
                             type: 'textarea',
                         },
                         [rId()]: {
@@ -105,6 +137,29 @@ const btnType: BootstrapBtnType = 'secondary';
                                         if (isSafeInteger(r)) {
                                             state.set(s.key, r);
                                         }
+                                    },
+                                    xgmExtendField: {bootstrap: {btnType: btnType}},
+                                };
+                                o[kkk + '_b_max'] = {
+                                    label: 'max',
+                                    type: 'button',
+                                    cssClassName: 'd-inline',
+                                    click() {
+                                        state.set(s.key, s.max);
+                                        gmc!.fields[kkk].value = s.max;
+                                        gmc!.fields[kkk].reload();
+                                    },
+                                    xgmExtendField: {bootstrap: {btnType: btnType}},
+                                };
+                                o[kkk + '_b_zero'] = {
+                                    label: 'zero',
+                                    type: 'button',
+                                    cssClassName: 'd-inline',
+                                    click() {
+                                        const vv = gmc!.fields[kkk].toValue();
+                                        state.set(s.key, 0);
+                                        gmc!.fields[kkk].value = 0;
+                                        gmc!.fields[kkk].reload();
                                     },
                                     xgmExtendField: {bootstrap: {btnType: btnType}},
                                 };
@@ -156,6 +211,29 @@ const btnType: BootstrapBtnType = 'secondary';
                                     },
                                     xgmExtendField: {bootstrap: {btnType: btnType}},
                                 };
+                                o[kkk + '_b_max'] = {
+                                    label: 'max',
+                                    type: 'button',
+                                    cssClassName: 'd-inline',
+                                    click() {
+                                        skill.set(s.key, s.max);
+                                        gmc!.fields[kkk].value = s.max;
+                                        gmc!.fields[kkk].reload();
+                                    },
+                                    xgmExtendField: {bootstrap: {btnType: btnType}},
+                                };
+                                o[kkk + '_b_zero'] = {
+                                    label: 'zero',
+                                    type: 'button',
+                                    cssClassName: 'd-inline',
+                                    click() {
+                                        const vv = gmc!.fields[kkk].toValue();
+                                        skill.set(s.key, 0);
+                                        gmc!.fields[kkk].value = 0;
+                                        gmc!.fields[kkk].reload();
+                                    },
+                                    xgmExtendField: {bootstrap: {btnType: btnType}},
+                                };
                                 o[rId()] = {
                                     type: 'br',
                                 };
@@ -201,6 +279,29 @@ const btnType: BootstrapBtnType = 'secondary';
                                         if (isSafeInteger(r)) {
                                             relation.set(s.key, r);
                                         }
+                                    },
+                                    xgmExtendField: {bootstrap: {btnType: btnType}},
+                                };
+                                o[kkk + '_b_max'] = {
+                                    label: 'max',
+                                    type: 'button',
+                                    cssClassName: 'd-inline',
+                                    click() {
+                                        relation.set(s.key, s.max);
+                                        gmc!.fields[kkk].value = s.max;
+                                        gmc!.fields[kkk].reload();
+                                    },
+                                    xgmExtendField: {bootstrap: {btnType: btnType}},
+                                };
+                                o[kkk + '_b_zero'] = {
+                                    label: 'zero',
+                                    type: 'button',
+                                    cssClassName: 'd-inline',
+                                    click() {
+                                        const vv = gmc!.fields[kkk].toValue();
+                                        relation.set(s.key, 0);
+                                        gmc!.fields[kkk].value = 0;
+                                        gmc!.fields[kkk].reload();
                                     },
                                     xgmExtendField: {bootstrap: {btnType: btnType}},
                                 };

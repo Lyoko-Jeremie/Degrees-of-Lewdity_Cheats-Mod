@@ -58,18 +58,18 @@ export class Relation {
 
     init() {
         this.table = new Map<string, RelationItem>([
-            ['fame.sex', new RelationItem('fame.sex', '淫乱 声名', 1000)],
-            ['fame.prostitution', new RelationItem('fame.prostitution', '卖淫 声名', 1000)],
-            ['fame.rape', new RelationItem('fame.rape', '强暴 声名', 1000)],
-            ['fame.bestiality', new RelationItem('fame.bestiality', '兽交 声名', 1000)],
-            ['fame.exhibitionism', new RelationItem('fame.exhibitionism', '露出 声名', 1000)],
-            ['fame.model', new RelationItem('fame.model', '走秀 声名', 1000)],
-            ['fame.pregnancy', new RelationItem('fame.pregnancy', '妊娠 声名', 1000)],
-            ['fame.impreg', new RelationItem('fame.impreg', '播种 声名', 1000)],
-            ['fame.scrap', new RelationItem('fame.scrap', '战斗 声名', 1000)],
-            ['fame.good', new RelationItem('fame.good', '善良 声名', 1000)],
-            ['fame.business', new RelationItem('fame.business', '商业 声名', 1000)],
-            ['fame.social', new RelationItem('fame.social', '社交 声名', 1000)],
+            ['fame.sex', new RelationItem('fame.sex', '淫乱 声名 (less is good)', 1000)],
+            ['fame.prostitution', new RelationItem('fame.prostitution', '卖淫 声名 (less is good)', 1000)],
+            ['fame.rape', new RelationItem('fame.rape', '强暴 声名 (less is good)', 1000)],
+            ['fame.bestiality', new RelationItem('fame.bestiality', '兽交 声名 (less is good)', 1000)],
+            ['fame.exhibitionism', new RelationItem('fame.exhibitionism', '露出 声名 (less is good)', 1000)],
+            ['fame.model', new RelationItem('fame.model', '走秀 声名 (less is good)', 1000)],
+            ['fame.pregnancy', new RelationItem('fame.pregnancy', '妊娠 声名 (less is good)', 1000)],
+            ['fame.impreg', new RelationItem('fame.impreg', '播种 声名 (less is good)', 1000)],
+            ['fame.scrap', new RelationItem('fame.scrap', '战斗 声名 (more is good)', 1000)],
+            ['fame.good', new RelationItem('fame.good', '善良 声名 (more is good)', 1000)],
+            ['fame.business', new RelationItem('fame.business', '商业 声名 (more is good)', 1000)],
+            ['fame.social', new RelationItem('fame.social', '社交 声名 (more is good)', 1000)],
 
             [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
 
@@ -84,8 +84,8 @@ export class Relation {
             ['delinquency', new RelationItem('delinquency', '学校违规', 1000, 0, this.thisW)],
             ['detention', new RelationItem('detention', '留校', 1000, 0, this.thisW)],
 
-            ['orphan_hope', new RelationItem('orphan_hope', '孤儿院希望', 100, -100)],
-            ['orphan_reb', new RelationItem('orphan_reb', '孤儿院叛逆', 100, -100)],
+            ['orphan_hope', new RelationItem('orphan_hope', '孤儿院希望 [-100~100]', 100, -100)],
+            ['orphan_reb', new RelationItem('orphan_reb', '孤儿院叛逆 [-100~100]', 100, -100)],
 
             [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
 
@@ -101,8 +101,8 @@ export class Relation {
             // SugarCube.setup.clothes.genitals[clothesIndex('genitals',V.worn.genitals)].name_cap
             ['worn.genitals.integrity', new RelationItem('worn.genitals.integrity','贞操带耐久', 1000)],
 
-            ['upperwet', new RelationItem('upperwet', '狗群', 1000)],
-            ['upperwet', new RelationItem('upperwet', '狗群', 1000)],
+            // ['upperwet', new RelationItem('upperwet', '狗群', 1000)],
+            // ['upperwet', new RelationItem('upperwet', '狗群', 1000)],
 
         ]);
     }

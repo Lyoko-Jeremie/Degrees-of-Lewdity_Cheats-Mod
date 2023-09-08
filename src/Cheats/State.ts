@@ -59,7 +59,7 @@ export class State {
 
     init() {
         this.table = new Map<string, StateItem>([
-            ['money', new StateItem('money', '金钱', 1000)],
+            ['money', new StateItem('money', '金钱', 100000000)],
 
             [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
 
@@ -80,15 +80,15 @@ export class State {
             ['stress', new StateItem('stress', '压力', 'stressmax', 0, this.thisW)],
             ['trauma', new StateItem('trauma', '创伤', 'traumamax', 0, this.thisW)],
             ['control', new StateItem('control', '自控 [more is better]', 'controlmax', 0, this.thisW)],
-            ['allure', new StateItem('allure', '诱惑 [dynamic calc by another info]', 1000, 0, this.thisW)],
+            ['allure', new StateItem('allure', '诱惑 [dynamic calc by another info]', 10000, 0, this.thisW)],
             ['drunk', new StateItem('drunk', '醉酒', 1000, 0, this.thisW)],
             ['drugged', new StateItem('drugged', '春药', 1000, 0, this.thisW)],
             ['hallucinogen', new StateItem('hallucinogen', '幻觉', 1000, 0, this.thisW)],
 
             [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
 
-            ['temple_chastity_timer', new StateItem('temple_chastity_timer', '贞洁测试倒计时', 1000)],
-            ['community_service', new StateItem('community_service', '社区服务倒计时', 1000)],
+            ['temple_chastity_timer', new StateItem('temple_chastity_timer', '贞洁测试倒计时', 15)],
+            ['community_service', new StateItem('community_service', '社区服务倒计时', 10)],
             ['grace', new StateItem('grace', '恩典', 100)],
 
             [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
@@ -99,8 +99,8 @@ export class State {
 
             [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
 
-            ['spray', new StateItem('spray', '防狼喷雾', 100)],
-            ['spraymax', new StateItem('spraymax', '防狼喷雾 总数', 100)],
+            ['spray', new StateItem('spray', '防狼喷雾', 20)],
+            ['spraymax', new StateItem('spraymax', '防狼喷雾 总数', 20)],
 
             [StateItemPlaceHolder.rId(), new StateItemPlaceHolder()],
 
