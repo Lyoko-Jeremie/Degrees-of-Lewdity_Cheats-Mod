@@ -2,6 +2,7 @@
 // @name                Degrees-of-Lewdity Cheats Mod
 // @namespace           jeremie.moe
 // @version             0.0.1
+// @include             https://eltirosto.github.io/Degrees-of-Lewdity-Chinese-Localization/*
 // @grant               GM_getValue
 // @grant               GM_setValue
 // @grant               GM.getValue
