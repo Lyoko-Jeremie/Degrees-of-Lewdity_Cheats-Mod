@@ -12,13 +12,14 @@ function rId() {
     return '' + (++rIdP) + Math.random();
 }
 
-import {assign, parseInt, isSafeInteger, isString} from 'lodash';
+import {assign, parseInt, isSafeInteger, isString, isNil} from 'lodash';
 
 import {Skill} from '../Cheats/Skill';
 import {Relation} from '../Cheats/Relation';
 import {State} from '../Cheats/State';
 import {FindValue, GetValue} from '../Cheats/Tools';
 import {NpcName2CN, NpcRelation} from "../Cheats/NpcRelation";
+import {PlayerState} from "../Cheats/PlayerState";
 
 const btnType: BootstrapBtnType = 'secondary';
 
@@ -27,6 +28,7 @@ const btnType: BootstrapBtnType = 'secondary';
     const relation = new Relation(unsafeWindow);
     const state = new State(unsafeWindow);
     const npcRelation = new NpcRelation(unsafeWindow);
+    const playerState = new PlayerState(unsafeWindow);
     const gmcCreator = () => {
         return new GM_config(
             {
@@ -56,7 +58,7 @@ const btnType: BootstrapBtnType = 'secondary';
                             type: 'button',
                             click() {
                                 const vv = gmc!.fields['FindValue_F'].toValue();
-                                if (!vv) {
+                                if (isNil(vv)) {
                                     console.error('FindValue_b (!vv) : ');
                                     return;
                                 }
@@ -65,6 +67,9 @@ const btnType: BootstrapBtnType = 'secondary';
                                     const fr = FindValue(r, unsafeWindow);
                                     gmc!.fields['FindValue_r'].value = JSON.stringify(fr, undefined, 2);
                                     gmc!.fields['FindValue_r'].reload();
+                                } else {
+                                    console.error('!(isSafeInteger(r)) : ', vv, r);
+                                    return;
                                 }
                             },
                             // cssStyleText: 'display: inline-block;',
@@ -83,11 +88,11 @@ const btnType: BootstrapBtnType = 'secondary';
                             cssClassName: 'd-inline',
                         },
                         'GetValue_b': {
-                            label: 'Find',
+                            label: 'Get',
                             type: 'button',
                             click() {
                                 const vv = gmc!.fields['GetValue_K'].toValue();
-                                if (!vv) {
+                                if (isNil(vv)) {
                                     console.error('GetValue_b (!vv) : ');
                                     return;
                                 }
@@ -131,13 +136,16 @@ const btnType: BootstrapBtnType = 'secondary';
                                     cssClassName: 'd-inline',
                                     click() {
                                         const vv = gmc!.fields[kkk].toValue();
-                                        if (!vv) {
+                                        if (isNil(vv)) {
                                             console.error('(!vv) : ', kkk, s);
                                             return;
                                         }
                                         const r = parseInt(vv as string);
                                         if (isSafeInteger(r)) {
                                             state.set(s.key, r);
+                                        } else {
+                                            console.error('!(isSafeInteger(r)) : ', kkk, s, r);
+                                            return;
                                         }
                                     },
                                     xgmExtendField: {bootstrap: {btnType: btnType}},
@@ -202,13 +210,16 @@ const btnType: BootstrapBtnType = 'secondary';
                                     cssClassName: 'd-inline',
                                     click() {
                                         const vv = gmc!.fields[kkk].toValue();
-                                        if (!vv) {
+                                        if (isNil(vv)) {
                                             console.error('(!vv) : ', kkk, s);
                                             return;
                                         }
                                         const r = parseInt(vv as string);
                                         if (isSafeInteger(r)) {
                                             skill.set(s.key, r);
+                                        } else {
+                                            console.error('!(isSafeInteger(r)) : ', kkk, s, r);
+                                            return;
                                         }
                                     },
                                     xgmExtendField: {bootstrap: {btnType: btnType}},
@@ -273,13 +284,16 @@ const btnType: BootstrapBtnType = 'secondary';
                                     cssClassName: 'd-inline',
                                     click() {
                                         const vv = gmc!.fields[kkk].toValue();
-                                        if (!vv) {
+                                        if (isNil(vv)) {
                                             console.error('(!vv) : ', kkk, s);
                                             return;
                                         }
                                         const r = parseInt(vv as string);
                                         if (isSafeInteger(r)) {
                                             relation.set(s.key, r);
+                                        } else {
+                                            console.error('!(isSafeInteger(r)) : ', kkk, s, r);
+                                            return;
                                         }
                                     },
                                     xgmExtendField: {bootstrap: {btnType: btnType}},
@@ -331,7 +345,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                 type: 'br',
                             };
                             o[kkk + '_' + 'love'] = {
-                                label: `${NpcName2CN(s.name)}:love`,
+                                label: `${NpcName2CN(s.name)}:爱意love`,
                                 type: 'number',
                                 default: s.love,
                                 cssClassName: 'd-inline',
@@ -342,13 +356,17 @@ const btnType: BootstrapBtnType = 'secondary';
                                 cssClassName: 'd-inline',
                                 click() {
                                     const vv = gmc!.fields[kkk + '_' + 'love'].toValue();
-                                    if (!vv) {
-                                        console.error('(!vv) : ', kkk, s);
+                                    if (isNil(vv)) {
+                                        console.error('(!vv) : ', kkk + '_' + 'love', s);
                                         return;
                                     }
                                     const r = parseInt(vv as string);
                                     if (isSafeInteger(r)) {
+                                        console.log('set : ', kkk + '_' + 'love', s, r);
                                         s.love = r;
+                                    } else {
+                                        console.error('!(isSafeInteger(r)) : ', kkk + '_' + 'love', s, r);
+                                        return;
                                     }
                                 },
                                 xgmExtendField: {bootstrap: {btnType: btnType}},
@@ -357,7 +375,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                 type: 'br',
                             };
                             o[kkk + '_' + 'lust'] = {
-                                label: `${NpcName2CN(s.name)}:lust`,
+                                label: `${NpcName2CN(s.name)}:性欲lust`,
                                 type: 'number',
                                 default: s.lust,
                                 cssClassName: 'd-inline',
@@ -368,13 +386,17 @@ const btnType: BootstrapBtnType = 'secondary';
                                 cssClassName: 'd-inline',
                                 click() {
                                     const vv = gmc!.fields[kkk + '_' + 'lust'].toValue();
-                                    if (!vv) {
-                                        console.error('(!vv) : ', kkk, s);
+                                    if (isNil(vv)) {
+                                        console.error('(!vv) : ', kkk + '_' + 'lust', s);
                                         return;
                                     }
                                     const r = parseInt(vv as string);
                                     if (isSafeInteger(r)) {
+                                        console.log('set : ', kkk + '_' + 'lust', s, r);
                                         s.lust = r;
+                                    } else {
+                                        console.error('!(isSafeInteger(r)) : ', kkk + '_' + 'lust', s, r);
+                                        return;
                                     }
                                 },
                                 xgmExtendField: {bootstrap: {btnType: btnType}},
@@ -383,7 +405,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                 type: 'br',
                             };
                             o[kkk + '_' + 'dom'] = {
-                                label: `${NpcName2CN(s.name)}:dom`,
+                                label: `${NpcName2CN(s.name)}:支配dom`,
                                 type: 'number',
                                 default: s.dom,
                                 cssClassName: 'd-inline',
@@ -394,13 +416,17 @@ const btnType: BootstrapBtnType = 'secondary';
                                 cssClassName: 'd-inline',
                                 click() {
                                     const vv = gmc!.fields[kkk + '_' + 'dom'].toValue();
-                                    if (!vv) {
-                                        console.error('(!vv) : ', kkk, s);
+                                    if (isNil(vv)) {
+                                        console.error('(!vv) : ', kkk + '_' + 'dom', s);
                                         return;
                                     }
                                     const r = parseInt(vv as string);
                                     if (isSafeInteger(r)) {
+                                        console.log('set : ', kkk + '_' + 'dom', s, r);
                                         s.dom = r;
+                                    } else {
+                                        console.error('!(isSafeInteger(r)) : ', kkk + '_' + 'dom', s, r);
+                                        return;
                                     }
                                 },
                                 xgmExtendField: {bootstrap: {btnType: btnType}},
@@ -409,7 +435,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                 type: 'br',
                             };
                             o[kkk + '_' + 'rage'] = {
-                                label: `${NpcName2CN(s.name)}:rage`,
+                                label: `${NpcName2CN(s.name)}:嫉妒rage`,
                                 type: 'number',
                                 default: s.rage,
                                 cssClassName: 'd-inline',
@@ -420,13 +446,17 @@ const btnType: BootstrapBtnType = 'secondary';
                                 cssClassName: 'd-inline',
                                 click() {
                                     const vv = gmc!.fields[kkk + '_' + 'rage'].toValue();
-                                    if (!vv) {
-                                        console.error('(!vv) : ', kkk, s);
+                                    if (isNil(vv)) {
+                                        console.error('(!vv) : ', kkk + '_' + 'rage', s);
                                         return;
                                     }
                                     const r = parseInt(vv as string);
                                     if (isSafeInteger(r)) {
+                                        console.log('set : ', kkk + '_' + 'rage', s, r);
                                         s.rage = r;
+                                    } else {
+                                        console.error('!(isSafeInteger(r)) : ', kkk + '_' + 'rage', s, r);
+                                        return;
                                     }
                                 },
                                 xgmExtendField: {bootstrap: {btnType: btnType}},
@@ -436,7 +466,7 @@ const btnType: BootstrapBtnType = 'secondary';
                             };
                             if (s.isSydney(s.npcRef)) {
                                 o[kkk + '_' + 'purity'] = {
-                                    label: `${NpcName2CN(s.name)}:purity`,
+                                    label: `${NpcName2CN(s.name)}:纯洁purity`,
                                     type: 'number',
                                     default: s.purity,
                                     cssClassName: 'd-inline',
@@ -447,13 +477,17 @@ const btnType: BootstrapBtnType = 'secondary';
                                     cssClassName: 'd-inline',
                                     click() {
                                         const vv = gmc!.fields[kkk + '_' + 'purity'].toValue();
-                                        if (!vv) {
-                                            console.error('(!vv) : ', kkk, s);
+                                        if (isNil(vv)) {
+                                            console.error('(!vv) : ', kkk + '_' + 'purity', s);
                                             return;
                                         }
                                         const r = parseInt(vv as string);
                                         if (isSafeInteger(r)) {
+                                            console.log('set : ', kkk + '_' + 'purity', s, r);
                                             s.purity = r;
+                                        } else {
+                                            console.error('!(isSafeInteger(r)) : ', kkk + '_' + 'purity', s, r);
+                                            return;
                                         }
                                     },
                                     xgmExtendField: {bootstrap: {btnType: btnType}},
@@ -462,7 +496,7 @@ const btnType: BootstrapBtnType = 'secondary';
                                     type: 'br',
                                 };
                                 o[kkk + '_' + 'corruption'] = {
-                                    label: `${NpcName2CN(s.name)}:corruption`,
+                                    label: `${NpcName2CN(s.name)}:堕落corruption`,
                                     type: 'number',
                                     default: s.corruption,
                                     cssClassName: 'd-inline',
@@ -473,13 +507,17 @@ const btnType: BootstrapBtnType = 'secondary';
                                     cssClassName: 'd-inline',
                                     click() {
                                         const vv = gmc!.fields[kkk + '_' + 'corruption'].toValue();
-                                        if (!vv) {
-                                            console.error('(!vv) : ', kkk, s);
+                                        if (isNil(vv)) {
+                                            console.error('(!vv) : ', kkk + '_' + 'corruption', s);
                                             return;
                                         }
                                         const r = parseInt(vv as string);
                                         if (isSafeInteger(r)) {
+                                            console.log('set : ', kkk + '_' + 'corruption', s, r);
                                             s.corruption = r;
+                                        } else {
+                                            console.error('!(isSafeInteger(r)) : ', kkk + '_' + 'corruption', s, r);
+                                            return;
                                         }
                                     },
                                     xgmExtendField: {bootstrap: {btnType: btnType}},
@@ -490,6 +528,97 @@ const btnType: BootstrapBtnType = 'secondary';
                             }
                             return assign<InitOptionsNoCustom['fields'], InitOptionsNoCustom['fields']>(acc, o);
                         }, {} as InitOptionsNoCustom['fields']),
+                        [rId()]: {
+                            section: GM_config.create('PlayerState Section'),
+                            type: 'br',
+                        },
+                        ...Array.from(playerState.table!.values()).reduce<InitOptionsNoCustom['fields']>((acc, s,) => {
+                            const o: InitOptionsNoCustom['fields'] = {};
+                            const kkk = 'PlayerState_' + s.key;
+                            if (s.tag !== "none") {
+                                o[kkk] = {
+                                    label: s.name,
+                                    type: 'number',
+                                    default: playerState.get(s.key),
+                                    cssClassName: 'd-inline',
+                                };
+                                o[kkk + '_l'] = {
+                                    label: `(max:${s.max})`,
+                                    type: 'label',
+                                    cssClassName: 'd-inline',
+                                };
+                                o[kkk + '_b'] = {
+                                    label: 'set',
+                                    type: 'button',
+                                    cssClassName: 'd-inline',
+                                    click() {
+                                        const vv = gmc!.fields[kkk].toValue();
+                                        if (isNil(vv)) {
+                                            console.error('(!vv) : ', kkk, s);
+                                            return;
+                                        }
+                                        const r = parseInt(vv as string);
+                                        if (isSafeInteger(r)) {
+                                            playerState.set(s.key, r);
+                                        }
+                                    },
+                                    xgmExtendField: {bootstrap: {btnType: btnType}},
+                                };
+                                o[kkk + '_b_max'] = {
+                                    label: 'max',
+                                    type: 'button',
+                                    cssClassName: 'd-inline',
+                                    click() {
+                                        relation.set(s.key, s.max);
+                                        gmc!.fields[kkk].value = s.max;
+                                        gmc!.fields[kkk].reload();
+                                    },
+                                    xgmExtendField: {bootstrap: {btnType: btnType}},
+                                };
+                                o[kkk + '_b_zero'] = {
+                                    label: 'zero',
+                                    type: 'button',
+                                    cssClassName: 'd-inline',
+                                    click() {
+                                        const vv = gmc!.fields[kkk].toValue();
+                                        relation.set(s.key, 0);
+                                        gmc!.fields[kkk].value = 0;
+                                        gmc!.fields[kkk].reload();
+                                    },
+                                    xgmExtendField: {bootstrap: {btnType: btnType}},
+                                };
+                                o[rId()] = {
+                                    type: 'br',
+                                };
+                            } else {
+                                o[kkk + '_BR'] = {
+                                    label: ``,
+                                    type: 'label',
+                                    cssStyleText: 'margin: 1.5em 0;',
+                                };
+                            }
+                            return assign<InitOptionsNoCustom['fields'], InitOptionsNoCustom['fields']>(acc, o);
+                        }, {} as InitOptionsNoCustom['fields']),
+                        [rId()]: {
+                            type: 'br',
+                        },
+                        'Get_sexStats_Value_b': {
+                            label: 'Get_sexStats',
+                            type: 'button',
+                            click() {
+                                const fr = GetValue('sexStats', unsafeWindow);
+                                gmc!.fields['Get_sexStats_Value_r'].value = JSON.stringify(fr, undefined, 2);
+                                gmc!.fields['Get_sexStats_Value_r'].reload();
+                            },
+                            cssClassName: 'd-inline',
+                            xgmExtendField: {bootstrap: {btnType: btnType}},
+                        },
+                        'Get_sexStats_Value_r': {
+                            type: 'textarea',
+                        },
+                        [rId()]: {
+                            type: 'br',
+                        },
                         // name: {
                         //     label: 'Name',
                         //     type: 'text',
