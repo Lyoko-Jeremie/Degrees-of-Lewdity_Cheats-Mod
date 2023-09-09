@@ -18,7 +18,7 @@ import {Skill} from '../Cheats/Skill';
 import {Relation} from '../Cheats/Relation';
 import {State} from '../Cheats/State';
 import {FindValue, GetValue} from '../Cheats/Tools';
-import {NpcInfo2CN, NpcName2CN, NpcRelation} from "../Cheats/NpcRelation";
+import {NpcInfo2CN, NpcInfoLimitString, NpcName2CN, NpcRelation} from "../Cheats/NpcRelation";
 import {PlayerState} from "../Cheats/PlayerState";
 
 const btnType: BootstrapBtnType = 'secondary';
@@ -409,7 +409,7 @@ interface GlobalInfo {
                             };
                             npc.infoList.forEach(infoName => {
                                 o[kkk + '_' + infoName] = {
-                                    label: `${npc.cnName}:${NpcInfo2CN(s.name, infoName)}${infoName}`,
+                                    label: `${npc.cnName}:${NpcInfo2CN(s.name, infoName)}:${infoName}:${NpcInfoLimitString(s.name, infoName)}`,
                                     type: 'number',
                                     default: s[infoName],
                                     cssClassName: 'd-inline',

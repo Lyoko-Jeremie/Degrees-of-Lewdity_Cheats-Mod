@@ -242,6 +242,48 @@ const NPCInfoNameSpecial: [string, [InfoNameKey, string][]][] = [
     ['Robin', [['dom', '自信'],]],
 ];
 
+const NPCInfoSpecialLimit: [string, [InfoNameKey, { min?: number, max: number }][]][] = [
+    // Name =>  Map[ Info => Limit ]
+    ['Ivory Wraith', [
+        ['lust', {max: 20,}],
+    ]],
+    ['Whitney', [
+        ['love', {max: 30,}],
+        ['dom', {max: 20,}],
+    ]],
+    ['Eden', [
+        ['love', {max: 200,}],
+        ['dom', {max: 150,}],
+    ]],
+    ['Black Wolf', [
+        ['love', {max: 30,}],
+        ['harmony', {max: 20,}],
+        ['ferocity', {max: 20,}],
+    ]],
+    ['Sydney', [
+        ['love', {max: 150,}],
+        ['purity', {max: 100, min: 0,}],
+        ['corruption', {max: 50, min: 0,}],
+    ]],
+    ['Mason', [
+        ['love', {max: 50,}],
+    ]],
+    ['Alex', [
+        ['love', {max: 100,}],
+        ['lust', {max: 100,}],
+        ['dom', {max: 100,}],
+    ]],
+    ['Darryl', [
+        ['love', {max: 50,}],
+    ]],
+    ['River', [
+        ['love', {max: 50,}],
+    ]],
+    ['Sam', [
+        ['love', {max: 50,}],
+    ]],
+];
+
 const NPCInfoNameSpecialM = new Map(
     NPCInfoNameSpecial.map(T => {
         return [T[0], new Map(T[1])];
@@ -253,6 +295,22 @@ export function NpcInfo2CN(npcName: string, infoName: InfoNameKey) {
     const n21 = NPCInfoNameSpecialM.get(npcName);
     const n22 = n21?.get(infoName);
     return n22 || n1 || '{NpcInfo2CNError}';
+}
+
+const NPCInfoSpecialLimitM = new Map(
+    NPCInfoSpecialLimit.map(T => {
+        return [T[0], new Map(T[1])];
+    }),
+);
+
+export function NpcInfoLimitString(npcName: string, infoName: InfoNameKey) {
+    const n21 = NPCInfoSpecialLimitM.get(npcName);
+    const l = n21?.get(infoName);
+    if (l) {
+        return `[${l.min || 0}~${l.max}]`;
+    } else {
+        return `[${0}~${100}]`;
+    }
 }
 
 export interface NPCNameListNameInfo {
