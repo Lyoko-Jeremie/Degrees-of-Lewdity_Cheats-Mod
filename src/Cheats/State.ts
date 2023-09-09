@@ -58,63 +58,68 @@ export class State {
     table?: Map<string, StateItem>;
 
     init() {
-        this.table = new Map<string, StateItem>([
-            ['money', new StateItem('money', '金钱', 100000000)],
+        this.table = new Map<string, StateItem>();
 
-            [ItemPlaceHolder.rId(), new ItemPlaceHolder()],
+        [
+            new StateItem('money', '金钱', 100000000),
 
-            ['purity', new StateItem('purity', '纯洁', 1000, 0, this.thisW)],
-            ['beauty', new StateItem('beauty', '容貌', 'beautymax', 0, this.thisW)],
-            ['physique', new StateItem('physique', '体能', 'physiquemax', 0, this.thisW)],
-            ['willpower', new StateItem('willpower', '意志', 'willpowermax', 0, this.thisW)],
-            ['awareness', new StateItem('awareness', '性知识', 1000, 0, this.thisW)],
-            ['promiscuity', new StateItem('promiscuity', '淫乱度', 1000, 0, this.thisW)],
-            ['exhibitionism', new StateItem('exhibitionism', '露出癖', 1000, 0, this.thisW)],
-            ['deviancy', new StateItem('deviancy', '异种癖', 1000, 0, this.thisW)],
+            new ItemPlaceHolder(),
 
-            [ItemPlaceHolder.rId(), new ItemPlaceHolder()],
+            new StateItem('purity', '纯洁', 1000, 0, this.thisW),
+            new StateItem('beauty', '容貌', 'beautymax', 0, this.thisW),
+            new StateItem('physique', '体能', 'physiquemax', 0, this.thisW),
+            new StateItem('willpower', '意志', 'willpowermax', 0, this.thisW),
+            new StateItem('awareness', '性知识', 1000, 0, this.thisW),
+            new StateItem('promiscuity', '淫乱度', 1000, 0, this.thisW),
+            new StateItem('exhibitionism', '露出癖', 1000, 0, this.thisW),
+            new StateItem('deviancy', '异种癖', 1000, 0, this.thisW),
 
-            ['pain', new StateItem('pain', '疼痛', 1000, 0, this.thisW)],
-            ['arousal', new StateItem('arousal', '性奋', 'arousalmax', 0, this.thisW)],
-            ['tiredness', new StateItem('tiredness', '疲劳', 1000, 0, this.thisW)],
-            ['stress', new StateItem('stress', '压力', 'stressmax', 0, this.thisW)],
-            ['trauma', new StateItem('trauma', '创伤', 'traumamax', 0, this.thisW)],
-            ['control', new StateItem('control', '自控 [more is better]', 'controlmax', 0, this.thisW)],
-            ['allure', new StateItem('allure', '诱惑 [dynamic calc by another info]', 10000, 0, this.thisW)],
-            ['drunk', new StateItem('drunk', '醉酒', 1000, 0, this.thisW)],
-            ['drugged', new StateItem('drugged', '春药', 1000, 0, this.thisW)],
-            ['hallucinogen', new StateItem('hallucinogen', '幻觉', 1000, 0, this.thisW)],
+            new ItemPlaceHolder(),
 
-            [ItemPlaceHolder.rId(), new ItemPlaceHolder()],
+            new StateItem('pain', '疼痛', 1000, 0, this.thisW),
+            new StateItem('arousal', '性奋', 'arousalmax', 0, this.thisW),
+            new StateItem('tiredness', '疲劳', 1000, 0, this.thisW),
+            new StateItem('stress', '压力', 'stressmax', 0, this.thisW),
+            new StateItem('trauma', '创伤', 'traumamax', 0, this.thisW),
+            new StateItem('control', '自控 [more is better]', 'controlmax', 0, this.thisW),
+            new StateItem('allure', '诱惑 [dynamic calc by another info]', 10000, 0, this.thisW),
+            new StateItem('drunk', '醉酒', 1000, 0, this.thisW),
+            new StateItem('drugged', '春药', 1000, 0, this.thisW),
+            new StateItem('hallucinogen', '幻觉', 1000, 0, this.thisW),
 
-            ['temple_chastity_timer', new StateItem('temple_chastity_timer', '贞洁测试倒计时', 15)],
-            ['community_service', new StateItem('community_service', '社区服务倒计时', 10)],
-            ['grace', new StateItem('grace', '恩典', 100)],
+            new ItemPlaceHolder(),
 
-            [ItemPlaceHolder.rId(), new ItemPlaceHolder()],
+            new StateItem('temple_chastity_timer', '贞洁测试倒计时', 15),
+            new StateItem('community_service', '社区服务倒计时', 10),
+            new StateItem('grace', '恩典', 100),
 
-            ['scienceprojectdays', new StateItem('scienceprojectdays', '科学倒计时', 16)],
-            ['mathsprojectdays', new StateItem('mathsprojectdays', '数学倒计时', 25)],
-            ['adultshopprogress', new StateItem('adultshopprogress', '成人商店开门倒计时', 22)],
+            new ItemPlaceHolder(),
 
-            [ItemPlaceHolder.rId(), new ItemPlaceHolder()],
+            new StateItem('scienceprojectdays', '科学倒计时', 16),
+            new StateItem('mathsprojectdays', '数学倒计时', 25),
+            new StateItem('adultshopprogress', '成人商店开门倒计时', 22),
 
-            ['spray', new StateItem('spray', '防狼喷雾', 20)],
-            ['spraymax', new StateItem('spraymax', '防狼喷雾 总数', 20)],
+            new ItemPlaceHolder(),
 
-            [ItemPlaceHolder.rId(), new ItemPlaceHolder()],
+            new StateItem('spray', '防狼喷雾', 20),
+            new StateItem('spraymax', '防狼喷雾 总数', 20),
 
-            ['condoms', new StateItem('condoms', '避孕套', 1000)],
+            new ItemPlaceHolder(),
 
-            [ItemPlaceHolder.rId(), new ItemPlaceHolder()],
+            new StateItem('condoms', '避孕套', 1000),
 
-            ['crimehistory', new StateItem('crimehistory', '犯罪历史', 10)],
-            ['crime', new StateItem('crime', '逮捕实施', 10)],
+            new ItemPlaceHolder(),
 
-            [ItemPlaceHolder.rId(), new ItemPlaceHolder()],
+            new StateItem('crimehistory', '犯罪历史', 10),
+            new StateItem('crime', '逮捕实施', 10),
 
-            ['feats.allSaves.points', new StateItem('feats.allSaves.points', 'Vrel硬币', 1000)],
-        ]);
+            new ItemPlaceHolder(),
+
+            new StateItem('feats.allSaves.points', 'Vrel硬币', 1000),
+
+        ].map(T => {
+            this.table!.set(T.key, T);
+        });
     }
 
 }

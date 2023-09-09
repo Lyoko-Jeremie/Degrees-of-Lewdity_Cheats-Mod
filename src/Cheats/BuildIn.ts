@@ -70,12 +70,16 @@ export class BuildInInfo {
     table?: Map<string, BII>;
 
     init() {
-        this.table = new Map<string, BII>([
-            ['rngOverride', new BII('rngOverride', 'rngOverride [undefined,0~100]', 100, undefined, this.thisW)],
+        this.table = new Map<string, BII>();
 
-            [ItemPlaceHolder.rId(), new ItemPlaceHolder()],
+        [
+            new BII('rngOverride', 'rngOverride [undefined,0~100]', 100, undefined, this.thisW),
 
-        ]);
+            new ItemPlaceHolder(),
+
+        ].map(T => {
+            this.table!.set(T.key, T);
+        });
     }
 
 }
