@@ -41,19 +41,23 @@ export class NpcItem {
     }
 
     isSydney(r: any): r is NpcSydney {
-        return !isNil(r.purity) && !isNil(r.corruption) && r.nam === 'Sydney';
+        return /* !isNil(r.purity) && !isNil(r.corruption) && */ r.nam === 'Sydney';
     }
 
     isKylar(r: any): r is NpcKylar {
-        return !isNil(r.rage) && r.nam === 'Kylar';
+        return r.nam === 'Kylar';
+    }
+
+    isAvery(r: any): r is NpcKylar {
+        return r.nam === 'Avery';
     }
 
     isIvoryWraith(r: any): r is NpcIvoryWraith {
-        return !isNil(r.rage) && r.nam === 'Ivory Wraith';
+        return r.nam === 'Ivory Wraith';
     }
 
     isBlackWolf(r: any): r is NpcBlackWolf {
-        return !isNil(r.rage) && r.nam === 'Black Wolf';
+        return r.nam === 'Black Wolf';
     }
 
     get purity() {
@@ -64,8 +68,10 @@ export class NpcItem {
     }
 
     set purity(v: number | undefined) {
-        if (this.isSydney(this.npcRef) && v) {
-            this.npcRef.purity = v;
+        if (this.isSydney(this.npcRef)) {
+            if (isNumber(v)) {
+                this.npcRef.purity = v;
+            }
         }
     }
 
@@ -77,20 +83,22 @@ export class NpcItem {
     }
 
     set corruption(v: number | undefined) {
-        if (this.isSydney(this.npcRef) && v) {
-            this.npcRef.corruption = v;
+        if (this.isSydney(this.npcRef)) {
+            if (isNumber(v)) {
+                this.npcRef.corruption = v;
+            }
         }
     }
 
     get rage() {
-        if (this.isKylar(this.npcRef)) {
+        if (this.isKylar(this.npcRef) || this.isAvery(this.npcRef)) {
             return this.npcRef.rage;
         }
         return undefined;
     }
 
     set rage(v: number | undefined) {
-        if (this.isKylar(this.npcRef)) {
+        if (this.isKylar(this.npcRef) || this.isAvery(this.npcRef)) {
             if (isNumber(v)) {
                 this.npcRef.rage = v;
             }
@@ -105,8 +113,10 @@ export class NpcItem {
     }
 
     set harmony(v: number | undefined) {
-        if (this.isBlackWolf(this.npcRef) && v) {
-            this.npcRef.harmony = v;
+        if (this.isBlackWolf(this.npcRef)) {
+            if (isNumber(v)) {
+                this.npcRef.harmony = v;
+            }
         }
     }
 
@@ -118,8 +128,10 @@ export class NpcItem {
     }
 
     set ferocity(v: number | undefined) {
-        if (this.isBlackWolf(this.npcRef) && v) {
-            this.npcRef.ferocity = v;
+        if (this.isBlackWolf(this.npcRef)) {
+            if (isNumber(v)) {
+                this.npcRef.ferocity = v;
+            }
         }
     }
 }
