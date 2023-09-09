@@ -1,5 +1,5 @@
-import {get, isString, set, isNil, uniqBy, cloneDeep} from 'lodash';
-import {NpcKylar, NpcStateBase100, NpcSydney} from "./NpcStateBaseType";
+import {get, isString, set, isNil, uniqBy, cloneDeep, isNumber} from 'lodash';
+import {NpcBlackWolf, NpcIvoryWraith, NpcKylar, NpcStateBase100, NpcSydney} from "./NpcStateBaseType";
 
 export class NpcItem {
     constructor(
@@ -48,6 +48,14 @@ export class NpcItem {
         return !isNil(r.rage) && r.nam === 'Kylar';
     }
 
+    isIvoryWraith(r: any): r is NpcIvoryWraith {
+        return !isNil(r.rage) && r.nam === 'Ivory Wraith';
+    }
+
+    isBlackWolf(r: any): r is NpcBlackWolf {
+        return !isNil(r.rage) && r.nam === 'Black Wolf';
+    }
+
     get purity() {
         if (this.isSydney(this.npcRef)) {
             return this.npcRef.purity;
@@ -82,8 +90,36 @@ export class NpcItem {
     }
 
     set rage(v: number | undefined) {
-        if (this.isKylar(this.npcRef) && v) {
-            this.npcRef.rage = v;
+        if (this.isKylar(this.npcRef)) {
+            if (isNumber(v)) {
+                this.npcRef.rage = v;
+            }
+        }
+    }
+
+    get harmony() {
+        if (this.isBlackWolf(this.npcRef)) {
+            return this.npcRef.harmony;
+        }
+        return undefined;
+    }
+
+    set harmony(v: number | undefined) {
+        if (this.isBlackWolf(this.npcRef) && v) {
+            this.npcRef.harmony = v;
+        }
+    }
+
+    get ferocity() {
+        if (this.isBlackWolf(this.npcRef)) {
+            return this.npcRef.ferocity;
+        }
+        return undefined;
+    }
+
+    set ferocity(v: number | undefined) {
+        if (this.isBlackWolf(this.npcRef) && v) {
+            this.npcRef.ferocity = v;
         }
     }
 }
@@ -91,43 +127,139 @@ export class NpcItem {
 const importantNpcOrder = ["Robin", "Whitney", "Eden", "Kylar", "Sydney", "Avery", "Great Hawk", "Black Wolf", "Alex"];
 const specialNPCs = ["Ivory Wraith"];
 
-const NPCNameListKP = [
-    ["Avery", "艾弗里", "商人"],
-    ["Bailey", "贝利", "监护人"],
-    ["Briar", "布莱尔", "妓院老板"],
-    ["Charlie", "查里", "舞蹈教练"],
-    ["Darryl", "达里尔", "俱乐部老板"],
-    ["Doren", "多伦", "英语老师"],
-    ["Eden", "伊甸", "猎人"],
-    ["Gwylan", "格威岚", "商店店主"],
-    ["Harper", "哈珀", "医生"],
-    ["Jordan", "约旦", "虔信者"],
-    ["Kylar", "凯拉尔", "不合群者"],
-    ["Landry", "兰德里", "罪犯"],
-    ["Leighton", "礼顿", "校长"],
-    ["Mason", "梅森", "游泳老师"],
-    ["Morgan", "摩根", "下水道居民"],
-    ["River", "瑞沃", "数学老师"],
-    ["Robin", "罗宾", "孤儿"],
-    ["Sam", "萨姆", "咖啡店主"],
-    ["Sirris", "西里斯", "科学老师"],
-    ["Whitney", "惠特尼", "霸凌者"],
-    ["Winter", "温特", "历史老师"],
-    ["Black Wolf", "黑狼", "头狼"],
-    ["Niki", "尼奇", "摄影师"],
-    ["Quinn", "奎因", "市长"],
-    ["Remy", "雷米", "农场主"],
-    ["Alex", "艾利克斯", "农工"],
-    ["Great Hawk", "巨鹰", "恐怖者"],
-    ["Wren", "伦恩", "走私者"],
-    ["Sydney", "悉尼", "信徒"],
-    ["Ivory Wraith", "", ""],
+type InfoNameKey = 'love' | 'lust' | 'dom' | 'rage' | 'harmony' | 'ferocity' | 'purity' | 'corruption';
+
+const NPCNameListKP: [string, string, string, [InfoNameKey[]]][] = [
+    ["Avery", "艾弗里", "商人", [
+        ['love', 'lust', 'dom', 'rage',],
+    ]],
+    ["Bailey", "贝利", "监护人", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Briar", "布莱尔", "妓院老板", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Charlie", "查里", "舞蹈教练", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Darryl", "达里尔", "俱乐部老板", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Doren", "多伦", "英语老师", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Eden", "伊甸", "猎人", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Gwylan", "格威岚", "商店店主", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Harper", "哈珀", "医生", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Jordan", "约旦", "虔信者", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Kylar", "凯拉尔", "不合群者", [
+        ['love', 'lust', 'dom', 'rage',],
+    ]],
+    ["Landry", "兰德里", "罪犯", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Leighton", "礼顿", "校长", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Mason", "梅森", "游泳老师", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Morgan", "摩根", "下水道居民", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["River", "瑞沃", "数学老师", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Robin", "罗宾", "孤儿", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Sam", "萨姆", "咖啡店主", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Sirris", "西里斯", "科学老师", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Whitney", "惠特尼", "霸凌者", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Winter", "温特", "历史老师", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Black Wolf", "黑狼", "头狼", [
+        ['love', 'lust', 'dom', 'harmony', 'ferocity',],
+    ]],
+    ["Niki", "尼奇", "摄影师", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Quinn", "奎因", "市长", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Remy", "雷米", "农场主", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Alex", "艾利克斯", "农工", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Great Hawk", "巨鹰", "恐怖者", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Wren", "伦恩", "走私者", [
+        ['love', 'lust', 'dom',],
+    ]],
+    ["Sydney", "悉尼", "信徒", [
+        ['love', 'lust', 'dom', 'purity', 'corruption',],
+    ]],
+    ["Ivory Wraith", "象牙幽灵", "血月邪神", [
+        ['love', 'lust', 'dom',],
+    ]],
 ];
 
-interface NPCNameListNameInfo {
+const NPCInfoNameM = new Map([
+    ['love', '爱意'],
+    ['lust', '性欲'],
+    ['dom', '支配'],
+    // Sydney
+    ['purity', '纯洁'],
+    ['corruption', '堕落'],
+    // Avery , Kylar
+    ['rage', '嫉妒'],
+    // Black Wolf
+    ['harmony', '善'],
+    ['ferocity', '恶'],
+]);
+
+const NPCInfoNameSpecial: [string, [InfoNameKey, string][]][] = [
+    // Name =>  Map[ Info => CN ]
+    ['Ivory Wraith', [['lust', '痴迷'],]],
+    ['Robin', [['dom', '自信'],]],
+];
+
+const NPCInfoNameSpecialM = new Map(
+    NPCInfoNameSpecial.map(T => {
+        return [T[0], new Map(T[1])];
+    }),
+);
+
+export function NpcInfo2CN(npcName: string, infoName: InfoNameKey) {
+    const n1 = NPCInfoNameM.get(infoName);
+    const n21 = NPCInfoNameSpecialM.get(npcName);
+    const n22 = n21?.get(infoName);
+    return n22 || n1 || '{NpcInfo2CNError}';
+}
+
+export interface NPCNameListNameInfo {
     enName: string;
     cnName: string;
     dec: string;
+    infoList: InfoNameKey[];
 }
 
 const NPCNameListMP: Map<string, NPCNameListNameInfo> = new Map(NPCNameListKP.map(T => {
@@ -135,6 +267,7 @@ const NPCNameListMP: Map<string, NPCNameListNameInfo> = new Map(NPCNameListKP.ma
         enName: T[0],
         cnName: T[1] || T[0],
         dec: T[2],
+        infoList: T[3][0],
     } as NPCNameListNameInfo];
 }));
 
@@ -181,9 +314,9 @@ export class NpcIterable implements ReadonlyMap<string, NpcItem> {
             uniqBy((
                 [] as string[]
             ).concat(
-                cloneDeep(importantNpcOrder)
-            ).concat(
                 cloneDeep(specialNPCs)
+            ).concat(
+                cloneDeep(importantNpcOrder)
             ).concat(
                 cloneDeep(this.baseRef.NPCNameList)
             ), T => T);

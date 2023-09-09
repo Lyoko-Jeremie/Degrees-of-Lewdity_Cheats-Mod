@@ -1,4 +1,3 @@
-
 export interface NpcStateBase0 {
     chastity: { penis: "", vagina: "", anus: "" },
     location: {},
@@ -72,4 +71,12 @@ export interface NpcSydney extends NpcStateBase100 {
 
 export interface NpcKylar extends NpcStateBase100 {
     rage: number,
+}
+
+export interface NpcIvoryWraith extends NpcStateBase100 {
+}
+
+export interface NpcBlackWolf extends NpcStateBase100 {
+    harmony: number;
+    ferocity: number;
 }

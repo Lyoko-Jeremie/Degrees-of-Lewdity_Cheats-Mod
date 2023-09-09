@@ -18,7 +18,7 @@ import {Skill} from '../Cheats/Skill';
 import {Relation} from '../Cheats/Relation';
 import {State} from '../Cheats/State';
 import {FindValue, GetValue} from '../Cheats/Tools';
-import {NpcName2CN, NpcRelation} from "../Cheats/NpcRelation";
+import {NpcInfo2CN, NpcName2CN, NpcRelation} from "../Cheats/NpcRelation";
 import {PlayerState} from "../Cheats/PlayerState";
 
 const btnType: BootstrapBtnType = 'secondary';
@@ -400,155 +400,36 @@ interface GlobalInfo {
                         ...Array.from(g.npcRelation.iterateIt().values()).reduce<InitOptionsNoCustom['fields']>((acc, s, ci) => {
                             const o: InitOptionsNoCustom['fields'] = {};
                             const kkk = 'NpcRelation_' + s.name;
+                            const npc = NpcName2CN(s.name);
                             o[rId()] = {
                                 section: GM_config.create(
-                                    `NpcRelation [${ci}] [${s.name}][${NpcName2CN(s.name).cnName}]--${NpcName2CN(s.name).dec}`
+                                    `NpcRelation [${ci}] [${s.name}][${npc.cnName}]--${npc.dec}`
                                 ),
                                 type: 'br',
                             };
-                            o[kkk + '_' + 'love'] = {
-                                label: `${NpcName2CN(s.name).cnName}:爱意love`,
-                                type: 'number',
-                                default: s.love,
-                                cssClassName: 'd-inline',
-                            };
-                            o[kkk + '_' + 'love' + '_b'] = {
-                                label: 'set',
-                                type: 'button',
-                                cssClassName: 'd-inline',
-                                click() {
-                                    const vv = gmc!.fields[kkk + '_' + 'love'].toValue();
-                                    if (isNil(vv)) {
-                                        console.error('(!vv) : ', kkk + '_' + 'love', s);
-                                        return;
-                                    }
-                                    const r = parseInt(vv as string);
-                                    if (isSafeInteger(r)) {
-                                        console.log('set : ', kkk + '_' + 'love', s, r);
-                                        s.love = r;
-                                    } else {
-                                        console.error('!(isSafeInteger(r)) : ', kkk + '_' + 'love', s, r);
-                                        return;
-                                    }
-                                },
-                                xgmExtendField: {bootstrap: {btnType: btnType}},
-                            };
-                            o[rId()] = {
-                                type: 'br',
-                            };
-                            o[kkk + '_' + 'lust'] = {
-                                label: `${NpcName2CN(s.name).cnName}:性欲lust`,
-                                type: 'number',
-                                default: s.lust,
-                                cssClassName: 'd-inline',
-                            };
-                            o[kkk + '_' + 'lust' + '_b'] = {
-                                label: 'set',
-                                type: 'button',
-                                cssClassName: 'd-inline',
-                                click() {
-                                    const vv = gmc!.fields[kkk + '_' + 'lust'].toValue();
-                                    if (isNil(vv)) {
-                                        console.error('(!vv) : ', kkk + '_' + 'lust', s);
-                                        return;
-                                    }
-                                    const r = parseInt(vv as string);
-                                    if (isSafeInteger(r)) {
-                                        console.log('set : ', kkk + '_' + 'lust', s, r);
-                                        s.lust = r;
-                                    } else {
-                                        console.error('!(isSafeInteger(r)) : ', kkk + '_' + 'lust', s, r);
-                                        return;
-                                    }
-                                },
-                                xgmExtendField: {bootstrap: {btnType: btnType}},
-                            };
-                            o[rId()] = {
-                                type: 'br',
-                            };
-                            o[kkk + '_' + 'dom'] = {
-                                label: `${NpcName2CN(s.name).cnName}:支配dom`,
-                                type: 'number',
-                                default: s.dom,
-                                cssClassName: 'd-inline',
-                            };
-                            o[kkk + '_' + 'dom' + '_b'] = {
-                                label: 'set',
-                                type: 'button',
-                                cssClassName: 'd-inline',
-                                click() {
-                                    const vv = gmc!.fields[kkk + '_' + 'dom'].toValue();
-                                    if (isNil(vv)) {
-                                        console.error('(!vv) : ', kkk + '_' + 'dom', s);
-                                        return;
-                                    }
-                                    const r = parseInt(vv as string);
-                                    if (isSafeInteger(r)) {
-                                        console.log('set : ', kkk + '_' + 'dom', s, r);
-                                        s.dom = r;
-                                    } else {
-                                        console.error('!(isSafeInteger(r)) : ', kkk + '_' + 'dom', s, r);
-                                        return;
-                                    }
-                                },
-                                xgmExtendField: {bootstrap: {btnType: btnType}},
-                            };
-                            o[rId()] = {
-                                type: 'br',
-                            };
-                            o[kkk + '_' + 'rage'] = {
-                                label: `${NpcName2CN(s.name).cnName}:嫉妒rage`,
-                                type: 'number',
-                                default: s.rage,
-                                cssClassName: 'd-inline',
-                            };
-                            o[kkk + '_' + 'rage' + '_b'] = {
-                                label: 'set',
-                                type: 'button',
-                                cssClassName: 'd-inline',
-                                click() {
-                                    const vv = gmc!.fields[kkk + '_' + 'rage'].toValue();
-                                    if (isNil(vv)) {
-                                        console.error('(!vv) : ', kkk + '_' + 'rage', s);
-                                        return;
-                                    }
-                                    const r = parseInt(vv as string);
-                                    if (isSafeInteger(r)) {
-                                        console.log('set : ', kkk + '_' + 'rage', s, r);
-                                        s.rage = r;
-                                    } else {
-                                        console.error('!(isSafeInteger(r)) : ', kkk + '_' + 'rage', s, r);
-                                        return;
-                                    }
-                                },
-                                xgmExtendField: {bootstrap: {btnType: btnType}},
-                            };
-                            o[rId()] = {
-                                type: 'br',
-                            };
-                            if (s.isSydney(s.npcRef)) {
-                                o[kkk + '_' + 'purity'] = {
-                                    label: `${NpcName2CN(s.name).cnName}:纯洁purity`,
+                            npc.infoList.forEach(infoName => {
+                                o[kkk + '_' + infoName] = {
+                                    label: `${npc.cnName}:${NpcInfo2CN(s.name, infoName)}${infoName}`,
                                     type: 'number',
-                                    default: s.purity,
+                                    default: s[infoName],
                                     cssClassName: 'd-inline',
                                 };
-                                o[kkk + '_' + 'purity' + '_b'] = {
+                                o[kkk + '_' + infoName + '_b'] = {
                                     label: 'set',
                                     type: 'button',
                                     cssClassName: 'd-inline',
                                     click() {
-                                        const vv = gmc!.fields[kkk + '_' + 'purity'].toValue();
+                                        const vv = gmc!.fields[kkk + '_' + infoName].toValue();
                                         if (isNil(vv)) {
-                                            console.error('(!vv) : ', kkk + '_' + 'purity', s);
+                                            console.error('(!vv) : ', kkk + '_' + infoName, s);
                                             return;
                                         }
                                         const r = parseInt(vv as string);
                                         if (isSafeInteger(r)) {
-                                            console.log('set : ', kkk + '_' + 'purity', s, r);
-                                            s.purity = r;
+                                            console.log('set : ', kkk + '_' + infoName, s, r);
+                                            s[infoName] = r;
                                         } else {
-                                            console.error('!(isSafeInteger(r)) : ', kkk + '_' + 'purity', s, r);
+                                            console.error('!(isSafeInteger(r)) : ', kkk + '_' + infoName, s, r);
                                             return;
                                         }
                                     },
@@ -557,37 +438,7 @@ interface GlobalInfo {
                                 o[rId()] = {
                                     type: 'br',
                                 };
-                                o[kkk + '_' + 'corruption'] = {
-                                    label: `${NpcName2CN(s.name).cnName}:堕落corruption`,
-                                    type: 'number',
-                                    default: s.corruption,
-                                    cssClassName: 'd-inline',
-                                };
-                                o[kkk + '_' + 'corruption' + '_b'] = {
-                                    label: 'set',
-                                    type: 'button',
-                                    cssClassName: 'd-inline',
-                                    click() {
-                                        const vv = gmc!.fields[kkk + '_' + 'corruption'].toValue();
-                                        if (isNil(vv)) {
-                                            console.error('(!vv) : ', kkk + '_' + 'corruption', s);
-                                            return;
-                                        }
-                                        const r = parseInt(vv as string);
-                                        if (isSafeInteger(r)) {
-                                            console.log('set : ', kkk + '_' + 'corruption', s, r);
-                                            s.corruption = r;
-                                        } else {
-                                            console.error('!(isSafeInteger(r)) : ', kkk + '_' + 'corruption', s, r);
-                                            return;
-                                        }
-                                    },
-                                    xgmExtendField: {bootstrap: {btnType: btnType}},
-                                };
-                                o[rId()] = {
-                                    type: 'br',
-                                };
-                            }
+                            });
                             return assign<InitOptionsNoCustom['fields'], InitOptionsNoCustom['fields']>(acc, o);
                         }, {} as InitOptionsNoCustom['fields']),
                         [rId()]: {
