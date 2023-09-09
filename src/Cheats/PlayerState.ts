@@ -88,7 +88,7 @@ export class PlayerState {
             new PSI('player.bottomsize', '屁股 size', 'bottomsizemax', 'bottomsizemin', this.thisW),
             new PSI('bottomgrowthtimer', '屁股 成长 timer', 1000, 0, this.thisW),
             new ItemPlaceHolder(),
-            new PSI('sexStats.vagina.pregnancy', '月经周期内的当前天数', 0, 0, this.thisW),
+            // new PSI('sexStats.vagina.pregnancy', '月经周期内的当前天数', 0, 0, this.thisW),
             new ItemPlaceHolder(),
             new PSI('sexStats.vagina.menstruation.currentDay', '月经周期内的当前天数', 0, 0, this.thisW),
             new PSI('sexStats.vagina.menstruation.currentDaysMax', '月经周期内的最后一天', 29, 0, this.thisW),
