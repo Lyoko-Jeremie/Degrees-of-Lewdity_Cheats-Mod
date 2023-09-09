@@ -70,7 +70,7 @@ export class Skill {
 
             [ItemPlaceHolder.rId(), new ItemPlaceHolder()],
 
-            ['corruption_slime', new SkillItem('corruption_slime', '堕落slime [less is better]', 1000)],
+            ['corruption_slime', new SkillItem('corruption_slime', '堕落slime [less is better]', 100)],
             ['skulduggery', new SkillItem('skulduggery', '诡术 技能', 1000)],
             ['danceskill', new SkillItem('danceskill', '舞蹈 技能', 1000)],
             ['swimmingskill', new SkillItem('swimmingskill', '游泳 技能', 1000)],
