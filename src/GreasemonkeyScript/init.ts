@@ -679,39 +679,57 @@ interface GlobalInfo {
             });
     };
     let gmc: undefined | GM_configStruct = undefined;
-    window.addEventListener('keydown', (event) => {
-        // console.log('keydown', event);
-        if (event.altKey && (event.key === 'Q' || event.key === 'q')) {
-            if (gmc && gmc.isOpen) {
-                gmc.close();
-            } else {
-                // if (!gmc) {
-                //     gmc = gmcCreator();
-                // } else {
-                //     gmc.reCreateFields();
-                // }
-                gmc = gmcCreator();
-                gmc.open();
-            }
-        }
-    });
-    if (true) {
-        const startBanner = document.createElement('div');
-        startBanner.id = 'startBanner';
-        startBanner.innerText = 'Degrees-of-Lewdity Cheats Mod';
-        startBanner.style.cssText = 'position: fixed;right: 1px;bottom: 1px;' +
-            'font-size: 1em;z-index: 1001;user-select: none;' +
-            'border: gray dashed 2px;color: gray;padding: .25em;';
-        startBanner.addEventListener('click', () => {
-            if (gmc && gmc.isOpen) {
-                gmc.close();
-            } else {
-                gmc = gmcCreator();
-                gmc.open();
+    const initMod = () => {
+        window.addEventListener('keydown', (event) => {
+            // console.log('keydown', event);
+            if (event.altKey && (event.key === 'Q' || event.key === 'q')) {
+                if (gmc && gmc.isOpen) {
+                    gmc.close();
+                } else {
+                    // if (!gmc) {
+                    //     gmc = gmcCreator();
+                    // } else {
+                    //     gmc.reCreateFields();
+                    // }
+                    gmc = gmcCreator();
+                    gmc.open();
+                }
             }
         });
-        document.body.appendChild(startBanner);
-    }
+        if (true) {
+            const startBanner = document.createElement('div');
+            startBanner.id = 'startBanner';
+            startBanner.innerText = 'Degrees-of-Lewdity Cheats Mod';
+            startBanner.style.cssText = 'position: fixed;right: 1px;bottom: 1px;' +
+                'font-size: 1em;z-index: 1001;user-select: none;' +
+                'border: gray dashed 2px;color: gray;padding: .25em;';
+            startBanner.addEventListener('click', () => {
+                if (gmc && gmc.isOpen) {
+                    gmc.close();
+                } else {
+                    gmc = gmcCreator();
+                    gmc.open();
+                }
+            });
+            document.body.appendChild(startBanner);
+        }
+    };
+    let waitInitCounter = 0;
+    const waitKDLoadingFinished = () => {
+        if (waitInitCounter > 100) {
+            // don't wait it
+            console.log('[Degrees-of-Lewdity Cheats Mod] (waitInitCounter > 100) dont wait it');
+            return;
+        }
+        if (!unsafeWindow.SugarCube) {
+            ++waitInitCounter;
+            setTimeout(waitKDLoadingFinished, 500);
+            return;
+        }
+        initMod();
+        console.log('waitKDLoadingFinished ok');
+    };
+    setTimeout(waitKDLoadingFinished, 100);
 })().catch(E => {
     console.error(E);
 });
