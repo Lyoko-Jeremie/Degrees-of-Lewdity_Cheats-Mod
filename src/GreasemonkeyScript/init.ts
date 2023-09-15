@@ -103,6 +103,7 @@ interface GlobalInfo {
                 'fields': // Fields object
                     {
                         [rId()]: {
+                            section: GM_config.create('FastCheat Section'),
                             type: 'br',
                         },
                         ['FastCheat_' + 'fullState' + '_b']: {
@@ -156,6 +157,7 @@ interface GlobalInfo {
                             xgmExtendField: {bootstrap: {btnType: btnType}},
                         },
                         [rId()]: {
+                            section: GM_config.create('Value Find Section'),
                             type: 'br',
                         },
                         'FindValue_F': {
