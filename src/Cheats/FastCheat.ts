@@ -32,6 +32,18 @@ export class FastCheat {
             }
         });
         [
+            'skulduggery',
+            'danceskill',
+            'swimmingskill',
+            'athletics',
+            'tending',
+            'housekeeping',
+        ].map(T => this.skill.table?.get(T)).forEach(T => {
+            if (T) {
+                this.skill.set(T.key, T.max);
+            }
+        });
+        [
             'science',
             'sciencetrait',
             'maths',
