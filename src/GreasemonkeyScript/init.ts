@@ -20,6 +20,7 @@ import {State} from '../Cheats/State';
 import {FindValue, GetValue} from '../Cheats/Tools';
 import {NpcInfo2CN, NpcInfoLimitString, NpcName2CN, NpcRelation} from "../Cheats/NpcRelation";
 import {PlayerState} from "../Cheats/PlayerState";
+import {FastCheat} from "../Cheats/FastCheat";
 
 const btnType: BootstrapBtnType = 'secondary';
 
@@ -61,6 +62,7 @@ interface GlobalInfo {
     state: State,
     npcRelation: NpcRelation,
     playerState: PlayerState,
+    fastCheat: FastCheat,
 }
 ;
 (async () => {
@@ -75,7 +77,9 @@ interface GlobalInfo {
                 state: new State(unsafeWindow),
                 npcRelation: new NpcRelation(unsafeWindow),
                 playerState: new PlayerState(unsafeWindow),
+                fastCheat: undefined as any,    // later init
             };
+            g.fastCheat = new FastCheat(g.skill, g.relation, g.state, g.npcRelation, g.playerState);
         }
     };
     const gmcCreator = () => {
@@ -98,6 +102,62 @@ interface GlobalInfo {
                 css: inlineGMCss + '\n' + inlineBootstrap,
                 'fields': // Fields object
                     {
+                        [rId()]: {
+                            type: 'br',
+                        },
+                        ['FastCheat_' + 'fullState' + '_b']: {
+                            label: 'FastCheat ' + 'fullState',
+                            type: 'button',
+                            click() {
+                                g.fastCheat.fullState();
+                            },
+                            // cssStyleText: 'display: inline-block;',
+                            cssClassName: 'd-inline',
+                            xgmExtendField: {bootstrap: {btnType: btnType}},
+                        },
+                        ['FastCheat_' + 'playerStateFull' + '_b']: {
+                            label: 'FastCheat ' + 'playerStateFull',
+                            type: 'button',
+                            click() {
+                                g.fastCheat.playerStateFull();
+                            },
+                            // cssStyleText: 'display: inline-block;',
+                            cssClassName: 'd-inline',
+                            xgmExtendField: {bootstrap: {btnType: btnType}},
+                        },
+                        ['FastCheat_' + 'resetState' + '_b']: {
+                            label: 'FastCheat ' + 'resetState',
+                            type: 'button',
+                            click() {
+                                g.fastCheat.resetState();
+                            },
+                            // cssStyleText: 'display: inline-block;',
+                            cssClassName: 'd-inline',
+                            xgmExtendField: {bootstrap: {btnType: btnType}},
+                        },
+                        ['FastCheat_' + 'noCrime' + '_b']: {
+                            label: 'FastCheat ' + 'noCrime',
+                            type: 'button',
+                            click() {
+                                g.fastCheat.noCrime();
+                            },
+                            // cssStyleText: 'display: inline-block;',
+                            cssClassName: 'd-inline',
+                            xgmExtendField: {bootstrap: {btnType: btnType}},
+                        },
+                        ['FastCheat_' + 'fullSpray' + '_b']: {
+                            label: 'FastCheat ' + 'fullSpray',
+                            type: 'button',
+                            click() {
+                                g.fastCheat.fullSpray();
+                            },
+                            // cssStyleText: 'display: inline-block;',
+                            cssClassName: 'd-inline',
+                            xgmExtendField: {bootstrap: {btnType: btnType}},
+                        },
+                        [rId()]: {
+                            type: 'br',
+                        },
                         'FindValue_F': {
                             label: `FindValue`,
                             type: 'text',
