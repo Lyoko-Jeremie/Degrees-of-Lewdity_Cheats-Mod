@@ -21,6 +21,7 @@ import {FindValue, GetValue} from '../Cheats/Tools';
 import {NpcInfo2CN, NpcInfoLimitString, NpcName2CN, NpcRelation} from "../Cheats/NpcRelation";
 import {PlayerState} from "../Cheats/PlayerState";
 import {FastCheat} from "../Cheats/FastCheat";
+import {Garden} from "../Cheats/Garden";
 
 const btnType: BootstrapBtnType = 'secondary';
 
@@ -63,6 +64,7 @@ interface GlobalInfo {
     npcRelation: NpcRelation,
     playerState: PlayerState,
     fastCheat: FastCheat,
+    garden: Garden,
 }
 ;
 (async () => {
@@ -77,6 +79,7 @@ interface GlobalInfo {
                 state: new State(unsafeWindow),
                 npcRelation: new NpcRelation(unsafeWindow),
                 playerState: new PlayerState(unsafeWindow),
+                garden: new Garden(unsafeWindow),
                 fastCheat: undefined as any,    // later init
             };
             g.fastCheat = new FastCheat(g.skill, g.relation, g.state, g.npcRelation, g.playerState);
@@ -151,6 +154,16 @@ interface GlobalInfo {
                             type: 'button',
                             click() {
                                 g.fastCheat.fullSpray();
+                            },
+                            // cssStyleText: 'display: inline-block;',
+                            cssClassName: 'd-inline',
+                            xgmExtendField: {bootstrap: {btnType: btnType}},
+                        },
+                        ['garden' + '_' + 'fullGarden' + '_b']: {
+                            label: 'FastCheat ' + 'fullGarden',
+                            type: 'button',
+                            click() {
+                                g.garden.fullAll();
                             },
                             // cssStyleText: 'display: inline-block;',
                             cssClassName: 'd-inline',
