@@ -29,6 +29,8 @@ declare global {
         };
         T: {
             [key: string]: any,
-        },
+        };
+
+        jQuery: any;
     }
 }

@@ -22,6 +22,7 @@ import {NpcInfo2CN, NpcInfoLimitString, NpcName2CN, NpcRelation} from "../Cheats
 import {PlayerState} from "../Cheats/PlayerState";
 import {FastCheat} from "../Cheats/FastCheat";
 import {Garden} from "../Cheats/Garden";
+import {PassageTracer} from "../Cheats/PassageTracer";
 
 const btnType: BootstrapBtnType = 'secondary';
 
@@ -65,6 +66,7 @@ interface GlobalInfo {
     playerState: PlayerState,
     fastCheat: FastCheat,
     garden: Garden,
+    passageTracer: PassageTracer,
 }
 ;
 (async () => {
@@ -81,6 +83,7 @@ interface GlobalInfo {
                 playerState: new PlayerState(unsafeWindow),
                 garden: new Garden(unsafeWindow),
                 fastCheat: undefined as any,    // later init
+                passageTracer: new PassageTracer(unsafeWindow),
             };
             g.fastCheat = new FastCheat(g.skill, g.relation, g.state, g.npcRelation, g.playerState);
         }
