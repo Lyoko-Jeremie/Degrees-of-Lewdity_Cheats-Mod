@@ -1,6 +1,6 @@
-html, body, #MyConfig {
+#MyConfig {
     /*background-color: #262626;*/
-    background-color: gray;
+    background-color: rgb(128, 128, 128);
 }
 
 /** {*/
@@ -17,6 +17,10 @@ html, body, #MyConfig {
 
 #MyConfig {
     margin: 1em;
+}
+
+#MyConfig input {
+    color: black;
 }
 
 #MyConfig textarea {

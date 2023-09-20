@@ -69,18 +69,35 @@ interface GlobalInfo {
     passageTracer: PassageTracer,
 }
 
+const divModCss = `
+#MyConfig_wrapper {
+    padding: 1em;
+}
+`;
+
 export class ModStart {
     constructor(
         public thisWindow: Window,
     ) {
         setTimeout(this.waitKDLoadingFinished.bind(this), 100);
+        this.isHttpMode = location.protocol.startsWith('http');
     }
+
+    isHttpMode = true;
+
+    rootNode?: HTMLDivElement;
 
     private waitInitCounter = 0;
     private g?: GlobalInfo;
     private gmc: undefined | GM_configStruct = undefined;
 
     private initG = () => {
+        if (!this.rootNode) {
+            this.rootNode = document.createElement('div');
+            // this.rootNode.id = 'rootNodeModLoaderGui';
+            this.rootNode.style.cssText = 'z-index: 1002;';
+            document.body.appendChild(this.rootNode);
+        }
         if (!this.g) {
             console.log('initG');
             this.g = {
@@ -114,7 +131,8 @@ export class ModStart {
                 },
                 'id': 'MyConfig', // The id used for this instance of GM_config
                 'title': 'Degrees-of-Lewdity Cheats Mod', // Panel Title
-                css: inlineGMCss + '\n' + inlineBootstrap,
+                css: inlineGMCss + '\n' + (this.isHttpMode ? inlineBootstrap : divModCss),
+                'frame': (this.isHttpMode ? undefined : this.rootNode),
                 'fields': // Fields object
                     {
                         [rId()]: {
@@ -749,18 +767,20 @@ export class ModStart {
                         // for (i in values) alert(values[i]);
                     },
                     open: (doc) => {
-                        doc.addEventListener('keydown', (event) => {
-                            // console.log('keydown', event);
-                            if (event.altKey && (event.key === 'Q' || event.key === 'q')) {
-                                if (this.gmc && this.gmc.isOpen) {
-                                    this.gmc!.close();
-                                } else {
-                                    // gmc!.reCreateFields();
-                                    this.gmc = this.gmcCreator();
-                                    this.gmc!.open();
+                        if (this.isHttpMode) {
+                            doc.addEventListener('keydown', (event) => {
+                                // console.log('keydown', event);
+                                if (event.altKey && (event.key === 'Q' || event.key === 'q')) {
+                                    if (this.gmc && this.gmc.isOpen) {
+                                        this.gmc!.close();
+                                    } else {
+                                        // gmc!.reCreateFields();
+                                        this.gmc = this.gmcCreator();
+                                        this.gmc!.open();
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                     },
                 },
             });
