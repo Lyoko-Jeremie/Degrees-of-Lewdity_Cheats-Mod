@@ -743,7 +743,7 @@ interface GlobalInfo {
                         doc.addEventListener('keydown', (event) => {
                             // console.log('keydown', event);
                             if (event.altKey && (event.key === 'Q' || event.key === 'q')) {
-                                if (gmc!.isOpen) {
+                                if (gmc && gmc.isOpen) {
                                     gmc!.close();
                                 } else {
                                     // gmc!.reCreateFields();
