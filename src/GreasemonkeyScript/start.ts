@@ -70,7 +70,9 @@ interface GlobalInfo {
 }
 
 export class ModStart {
-    constructor() {
+    constructor(
+        public thisWindow: Window,
+    ) {
         setTimeout(this.waitKDLoadingFinished.bind(this), 100);
     }
 
@@ -83,14 +85,14 @@ export class ModStart {
             console.log('initG');
             this.g = {
                 SearchHistory_GetValue: new SearchHistory('SearchHistory_GetValue'),
-                skill: new Skill(unsafeWindow),
-                relation: new Relation(unsafeWindow),
-                state: new State(unsafeWindow),
-                npcRelation: new NpcRelation(unsafeWindow),
-                playerState: new PlayerState(unsafeWindow),
-                garden: new Garden(unsafeWindow),
+                skill: new Skill(this.thisWindow),
+                relation: new Relation(this.thisWindow),
+                state: new State(this.thisWindow),
+                npcRelation: new NpcRelation(this.thisWindow),
+                playerState: new PlayerState(this.thisWindow),
+                garden: new Garden(this.thisWindow),
                 fastCheat: undefined as any,    // later init
-                passageTracer: new PassageTracer(unsafeWindow),
+                passageTracer: new PassageTracer(this.thisWindow),
             };
             this.g.fastCheat = new FastCheat(this.g.skill, this.g.relation, this.g.state, this.g.npcRelation, this.g.playerState);
         }
@@ -199,7 +201,7 @@ export class ModStart {
                                 }
                                 const r = parseInt(vv as string);
                                 if (isSafeInteger(r)) {
-                                    const fr = FindValue(r, unsafeWindow);
+                                    const fr = FindValue(r, this.thisWindow);
                                     this.gmc!.fields['FindValue_r'].value = JSON.stringify(fr, undefined, 2);
                                     this.gmc!.fields['FindValue_r'].reload();
                                 } else {
@@ -245,7 +247,7 @@ export class ModStart {
                                     return;
                                 }
                                 this.g!.SearchHistory_GetValue.add(vv);
-                                const fr = GetValue(vv, unsafeWindow);
+                                const fr = GetValue(vv, this.thisWindow);
                                 this.gmc!.fields['GetValue_r'].value = JSON.stringify(fr, undefined, 2);
                                 this.gmc!.fields['GetValue_r'].reload();
                             },
@@ -604,7 +606,7 @@ export class ModStart {
                             label: 'Get_sexStats',
                             type: 'button',
                             click: () => {
-                                const fr = GetValue('sexStats', unsafeWindow);
+                                const fr = GetValue('sexStats', this.thisWindow);
                                 this.gmc!.fields['Get_sexStats_Value_r'].value = JSON.stringify(fr, undefined, 2);
                                 this.gmc!.fields['Get_sexStats_Value_r'].reload();
                             },
@@ -806,7 +808,7 @@ export class ModStart {
             console.log('[Degrees-of-Lewdity Cheats Mod] (waitInitCounter > 100) dont wait it');
             return;
         }
-        if (!unsafeWindow.SugarCube) {
+        if (!this.thisWindow.SugarCube) {
             ++this.waitInitCounter;
             setTimeout(this.waitKDLoadingFinished, 500);
             return;
