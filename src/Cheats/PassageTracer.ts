@@ -1,13 +1,20 @@
+type whenPassageCome = (passageName: string) => void;
+
 export class PassageTracer {
     constructor(
         public thisW: Window,
     ) {
-
         console.log('PassageTracer() this.thisW.jQuery', this.thisW.jQuery);
         console.log('PassageTracer() this.thisW.jQuery(document)', this.thisW.jQuery(document));
-        this.thisW.jQuery(document).on(":passageinit", () => {
+        this.thisW.jQuery(document).on(":passageend", () => {
             this.newPassageCome();
         });
+    }
+
+    private whenPassageComeCallback: whenPassageCome[] = [];
+
+    addCallback(cb: whenPassageCome) {
+        this.whenPassageComeCallback.push(cb);
     }
 
     newPassageCome() {
@@ -23,15 +30,19 @@ export class PassageTracer {
             return;
         }
         console.log('newPassageCome() dpName', dpName);
-        switch (dpName) {
-            case 'Stall Sell':
-                // the sell event
-                console.log('newPassageCome() Stall Sell');
-                break;
-            case 'Stall Attention':
-                break;
-            default:
-                break;
+        // switch (dpName) {
+        //     case 'Stall Sell':
+        //         // the sell event
+        //         console.log('newPassageCome() Stall Sell');
+        //         break;
+        //     case 'Stall Attention':
+        //         break;
+        //     default:
+        //         break;
+        // }
+        for (let i = 0; i < this.whenPassageComeCallback.length; i++) {
+            const cb = this.whenPassageComeCallback[i];
+            cb(dpName);
         }
     }
 
