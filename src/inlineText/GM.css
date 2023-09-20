@@ -19,15 +19,12 @@
     margin: 1em;
 }
 
-#MyConfig input {
-    color: black;
-}
-
 #MyConfig textarea {
     font-family: "Consolas", monospace !important;
 }
 
 #MyConfig input[type="text"] {
+    color: black;
     background-color: lightgrey;
 }
 
