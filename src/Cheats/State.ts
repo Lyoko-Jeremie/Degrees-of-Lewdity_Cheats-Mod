@@ -76,7 +76,7 @@ export class State {
 
             new ItemPlaceHolder(),
 
-            new StateItem('pain', '疼痛', 1000, 0, this.thisW),
+            new StateItem('pain', '疼痛', 100, 0, this.thisW),
             new StateItem('arousal', '性奋', 'arousalmax', 0, this.thisW),
             new StateItem('tiredness', '疲劳', 1000, 0, this.thisW),
             new StateItem('stress', '压力', 'stressmax', 0, this.thisW),

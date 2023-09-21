@@ -33,4 +33,7 @@ declare global {
 
         jQuery: any;
     }
+
+    var Story: any;
+    var Engine: any;
 }

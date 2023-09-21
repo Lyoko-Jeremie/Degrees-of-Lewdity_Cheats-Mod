@@ -199,6 +199,32 @@ export class ModStart {
                             cssClassName: 'd-inline',
                             xgmExtendField: {bootstrap: {btnType: btnType}},
                         },
+                        // [rId()]: {
+                        //     section: GM_config.create('Play Section (Dangerous)'),
+                        //     type: 'br',
+                        // },
+                        // 'Play_F': {
+                        //     label: `Play`,
+                        //     type: 'text',
+                        //     cssClassName: 'd-inline',
+                        // },
+                        // 'Play_b': {
+                        //     label: 'Play',
+                        //     type: 'button',
+                        //     click: () => {
+                        //         const vv = this.gmc!.fields['FindValue_F'].toValue();
+                        //         if (isNil(vv)) {
+                        //             console.error('FindValue_b (!vv) : ');
+                        //             return;
+                        //         }
+                        //         if (Story.has(vv)) {
+                        //             Engine.play(vv)
+                        //         }
+                        //     },
+                        //     // cssStyleText: 'display: inline-block;',
+                        //     cssClassName: 'd-inline',
+                        //     xgmExtendField: {bootstrap: {btnType: btnType}},
+                        // },
                         [rId()]: {
                             section: GM_config.create('Value Find Section'),
                             type: 'br',
