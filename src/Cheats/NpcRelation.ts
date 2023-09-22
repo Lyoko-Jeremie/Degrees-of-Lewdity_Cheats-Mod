@@ -390,7 +390,7 @@ export class NpcIterable implements ReadonlyMap<string, NpcItem> {
             ).concat(
                 cloneDeep(this.baseRef.NPCNameList)
             ), T => T);
-        console.log('this.orderedName', this.orderedName);
+        // console.log('this.orderedName', this.orderedName);
     }
 
     get size(): number {
