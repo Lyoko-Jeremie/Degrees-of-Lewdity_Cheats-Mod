@@ -34,6 +34,34 @@ declare global {
         jQuery: any;
     }
 
-    var Story: any;
-    var Engine: any;
+    var SugarCube: SugarCube;
+}
+
+interface SugarCube {
+    Browser,
+    Config,
+    Dialog,
+    Engine,
+    Fullscreen,
+    Has,
+    L10n,
+    Macro,
+    Passage,
+    Save,
+    Scripting,
+    Setting,
+    SimpleAudio,
+    State,
+    Story,
+    UI,
+    UIBar,
+    DebugBar,
+    Util,
+    Visibility,
+    Wikifier,
+    session,
+    settings,
+    setup,
+    storage,
+    version
 }

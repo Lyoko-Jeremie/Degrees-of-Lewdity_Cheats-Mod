@@ -26,9 +26,9 @@ import {PassageTracer} from "../Cheats/PassageTracer";
 
 const btnType: BootstrapBtnType = 'secondary';
 
-class SearchHistory {
+class History {
     constructor(
-        public k: string = 'SearchHistory',
+        public k: string = 'History',
     ) {
     }
 
@@ -53,12 +53,13 @@ class SearchHistory {
     }
 
     getList(): string[] {
-        return this.read();
+        return this.read().reverse();
     }
 }
 
 interface GlobalInfo {
-    SearchHistory_GetValue: SearchHistory,
+    History_GetValue: History,
+    History_Play: History,
     skill: Skill,
     relation: Relation,
     state: State,
@@ -101,7 +102,8 @@ export class ModStart {
         if (!this.g) {
             console.log('initG');
             this.g = {
-                SearchHistory_GetValue: new SearchHistory('SearchHistory_GetValue'),
+                History_GetValue: new History('SearchHistory'),
+                History_Play: new History('PlayHistory'),
                 skill: new Skill(this.thisWindow),
                 relation: new Relation(this.thisWindow),
                 state: new State(this.thisWindow),
@@ -135,6 +137,16 @@ export class ModStart {
                 'frame': (this.isHttpMode ? undefined : this.rootNode),
                 'fields': // Fields object
                     {
+                        ['Close_b']: {
+                            label: 'Close',
+                            type: 'button',
+                            click: () => {
+                                this.gmc!.close();
+                            },
+                            // cssStyleText: 'display: inline-block;',
+                            cssClassName: 'd-inline',
+                            xgmExtendField: {bootstrap: {btnType: btnType}},
+                        },
                         [rId()]: {
                             section: GM_config.create('FastCheat Section'),
                             type: 'br',
@@ -199,32 +211,46 @@ export class ModStart {
                             cssClassName: 'd-inline',
                             xgmExtendField: {bootstrap: {btnType: btnType}},
                         },
-                        // [rId()]: {
-                        //     section: GM_config.create('Play Section (Dangerous)'),
-                        //     type: 'br',
-                        // },
+                        [rId()]: {
+                            section: GM_config.create('Play Section (Dangerous)'),
+                            type: 'br',
+                        },
                         // 'Play_F': {
                         //     label: `Play`,
                         //     type: 'text',
                         //     cssClassName: 'd-inline',
                         // },
-                        // 'Play_b': {
-                        //     label: 'Play',
-                        //     type: 'button',
-                        //     click: () => {
-                        //         const vv = this.gmc!.fields['FindValue_F'].toValue();
-                        //         if (isNil(vv)) {
-                        //             console.error('FindValue_b (!vv) : ');
-                        //             return;
-                        //         }
-                        //         if (Story.has(vv)) {
-                        //             Engine.play(vv)
-                        //         }
-                        //     },
-                        //     // cssStyleText: 'display: inline-block;',
-                        //     cssClassName: 'd-inline',
-                        //     xgmExtendField: {bootstrap: {btnType: btnType}},
-                        // },
+                        'Play_F': {
+                            label: `Play`,
+                            type: 'datalist',
+                            cssClassName: 'd-inline',
+                            options: this.g!.History_Play.getList(),
+                        },
+                        'Play_b': {
+                            label: 'Play',
+                            type: 'button',
+                            click: () => {
+                                const vv = this.gmc!.fields['Play_F'].toValue();
+                                const vvv = this.gmc!.fields['Play_F'].value;
+                                console.log('vv', vv);
+                                console.log('vvv', vvv);
+                                if (isNil(vv)) {
+                                    console.error('GetValue_b (!vv) : ');
+                                    return;
+                                }
+                                if (!isString(vv)) {
+                                    console.error('GetValue_b (!isString(vv)) : ');
+                                    return;
+                                }
+                                this.g!.History_Play.add(vv);
+                                if (SugarCube.Story.has(vv)) {
+                                    SugarCube.Engine.play(vv)
+                                }
+                            },
+                            // cssStyleText: 'display: inline-block;',
+                            cssClassName: 'd-inline',
+                            xgmExtendField: {bootstrap: {btnType: btnType}},
+                        },
                         [rId()]: {
                             section: GM_config.create('Value Find Section'),
                             type: 'br',
@@ -267,7 +293,7 @@ export class ModStart {
                             label: `GetValueKeyName`,
                             type: 'datalist',
                             cssClassName: 'd-inline',
-                            options: this.g!.SearchHistory_GetValue.getList(),
+                            options: this.g!.History_GetValue.getList(),
                         },
                         'GetValue_b': {
                             label: 'Get',
@@ -290,7 +316,7 @@ export class ModStart {
                                     console.error('GetValue_b (!isString(vv)) : ');
                                     return;
                                 }
-                                this.g!.SearchHistory_GetValue.add(vv);
+                                this.g!.History_GetValue.add(vv);
                                 const fr = GetValue(vv, this.thisWindow);
                                 this.gmc!.fields['GetValue_r'].value = JSON.stringify(fr, undefined, 2);
                                 this.gmc!.fields['GetValue_r'].reload();
@@ -795,8 +821,14 @@ export class ModStart {
                     open: (doc) => {
                         if (this.isHttpMode) {
                             doc.addEventListener('keydown', (event) => {
-                                // console.log('keydown', event);
+                                console.log('open keydown', event);
                                 if (event.altKey && (event.key === 'Q' || event.key === 'q')) {
+                                    if (event.shiftKey) {
+                                        if (this.gmc && this.gmc.isOpen) {
+                                            this.gmc.close();
+                                        }
+                                        return event.preventDefault();
+                                    }
                                     if (this.gmc && this.gmc.isOpen) {
                                         this.gmc!.close();
                                     } else {
@@ -804,6 +836,7 @@ export class ModStart {
                                         this.gmc = this.gmcCreator();
                                         this.gmc!.open();
                                     }
+                                    return event.preventDefault();
                                 }
                             });
                         }
@@ -813,10 +846,23 @@ export class ModStart {
     };
 
 
+    isInit = false;
     initMod = () => {
+        if (this.isInit) {
+            console.warn('[Degrees-of-Lewdity Cheats Mod] isInit duplicate init');
+            return;
+        }
+        this.isInit = true;
+
         window.addEventListener('keydown', (event) => {
-            // console.log('keydown', event);
+            console.log('initMod keydown', event);
             if (event.altKey && (event.key === 'Q' || event.key === 'q')) {
+                if (event.shiftKey) {
+                    if (this.gmc && this.gmc.isOpen) {
+                        this.gmc.close();
+                    }
+                    return event.preventDefault();
+                }
                 if (this.gmc && this.gmc.isOpen) {
                     this.gmc.close();
                 } else {
@@ -828,6 +874,7 @@ export class ModStart {
                     this.gmc = this.gmcCreator();
                     this.gmc.open();
                 }
+                return event.preventDefault();
             }
         });
         if (true) {
